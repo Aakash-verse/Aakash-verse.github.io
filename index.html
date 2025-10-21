@@ -9,7 +9,6 @@
       --electric-1: #00d4ff; /* bright electric blue */
       --electric-2: #00a8ff; /* deeper tone */
       --bg: #00a8ff; /* electric blue background for header/footer */
-      --nav-bg: #007bbf; /* darker shade for navigation bar (keeps theme) */
       --glass: rgba(255,255,255,0.02);
       --muted: rgba(0,0,0,0.6);
       --max-width: 1100px;
@@ -22,7 +21,7 @@
     /* NAVBAR */
     .nav {
       width:100%;
-      background: var(--nav-bg); /* changed to darker electric-blue */
+      background: #ffffff; /* keep page white, links use theme color */
       box-shadow: 0 1px 0 rgba(0,0,0,0.04);
       position:sticky;
       top:0;
@@ -195,8 +194,7 @@
   <main role="main" aria-labelledby="mainHeading">
     <section id="about" aria-labelledby="aboutHeading">
       <h2 id="aboutHeading">About</h2>
-
-      <p>
+      <p style="color: #6b7280;">
         I am a PhD student based in Nice, affiliated with the Université Côte d’Azur, CNRS, and INRIA.
         My research focuses on the theoretical aspects of machine learning, specifically tackling problems
         at the intersection of theoretical computer science and physics. Drawing on my background in Physics
@@ -204,7 +202,6 @@
         and brain-inspired learning dynamics, the mathematical theory of neural network pruning, and the
         analysis of neural scaling laws.
       </p>
-
     </section>
 
     <section id="education" aria-labelledby="educationHeading">
