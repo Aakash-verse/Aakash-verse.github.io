@@ -1,177 +1,285 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Aakash Kumar</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Aakash Kumar — Theoretical Machine Learning</title>
+  <meta name="description" content="Aakash Kumar — PhD student (Theoretical Machine Learning). Research on Hopfield networks, pruning, quantization and neural scaling laws." />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
   <style>
     :root{
-      --bg:#f7f7f8;
-      --muted:#666;
-      --accent:#222;
-      --card:#fff;
-      --maxw:900px;
-    }
-    body {
-      font-family: Inter, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      background-color: var(--bg);
-      color: #222;
-      margin: 0;
-      padding: 0;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
+      --bg: #f7f7f8;
+      --card: #ffffff;
+      --muted: #666666;
+      --text: #111111;
+      --accent: #111111;     /* primary text / link color */
+      --glass: rgba(255,255,255,0.6);
+      --shadow: 0 10px 30px rgba(20,20,20,0.06);
+      --radius: 12px;
+      --maxw: 1100px;
+      --accent-contrast: #0b0b0b;
     }
 
-    header {
-      background-color: var(--accent);
+    /* Dark theme variables (switched via .dark on <html>) */
+    html.dark {
+      --bg: #0b0b0d;
+      --card: #0f1113;
+      --muted: #9aa0a6;
+      --text: #e6e8ea;
+      --accent: #e6e8ea;
+      --glass: rgba(255,255,255,0.02);
+      --shadow: 0 10px 30px rgba(0,0,0,0.6);
+    }
+
+    /* Global */
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      background: linear-gradient(180deg,var(--bg),#fff 150%);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    a:focus { outline: 3px solid rgba(50,120,255,0.18); outline-offset: 3px; border-radius:6px; }
+
+    /* Header + nav */
+    header.site-header {
+      background: var(--accent) ;
       color: white;
       padding: 2rem 1rem;
       text-align: center;
+      position: relative;
     }
+    header .hero {
+      max-width: var(--maxw);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 1rem;
+      align-items: center;
+      padding: 0 1rem;
+    }
+    .avatar {
+      width: 76px;
+      height: 76px;
+      border-radius: 12px;
+      background: linear-gradient(135deg,#2b2b2b,#111);
+      display:flex; align-items:center; justify-content:center;
+      color: white; font-weight:700; font-size:1.25rem;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+    }
+    header h1 { margin:0; font-size:1.4rem; letter-spacing:0.2px; }
+    header p.lead { margin:0.35rem 0 0; opacity:0.95; font-weight:500; font-size:0.95rem; }
 
-    header h1 { margin: 0; font-size: 2rem; letter-spacing: 0.5px; }
-    header p { margin: 0.4rem 0 0; opacity: 0.9; }
-
-    nav {
-      background-color: #2f2f2f;
-      padding: 0.5rem;
-      text-align: center;
+    nav.site-nav {
+      background: rgba(255,255,255,0.02);
       position: sticky;
       top: 0;
-      z-index: 10;
+      z-index: 30;
+      display:flex;
+      justify-content:center;
+      border-bottom: 1px solid rgba(0,0,0,0.04);
+      backdrop-filter: blur(6px);
     }
-
-    nav a {
+    nav .nav-inner {
+      max-width: var(--maxw);
+      width:100%;
+      padding: 0.3rem 1rem;
+      display:flex;
+      gap:0.5rem;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .nav-links {
+      display:flex;
+      gap:0.6rem;
+      align-items:center;
+    }
+    .nav-links a {
+      padding: 0.5rem 0.6rem;
       color: white;
-      margin: 0 0.8rem;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 0.95rem;
+      opacity: 0.95;
+      font-weight:600;
+      font-size:0.95rem;
+      border-radius:8px;
     }
+    .nav-links a.active, .nav-links a:hover { text-decoration: underline; }
 
-    nav a:hover { text-decoration: underline; }
+    /* Theme toggle / CV button */
+    .nav-utilities { display:flex; gap:0.6rem; align-items:center; }
+    .btn {
+      background: none;
+      border: 1px solid rgba(255,255,255,0.08);
+      color: white;
+      padding: 0.45rem 0.6rem;
+      border-radius:10px;
+      font-weight:600;
+      font-size:0.9rem;
+      cursor:pointer;
+    }
+    .btn.ghost { background: transparent; }
+    .btn:active { transform: translateY(1px); }
 
+    /* Main layout */
     main {
-      padding: 2rem 1rem;
       max-width: var(--maxw);
       margin: 2rem auto;
+      padding: 0 1rem 4rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+
+    /* On wide screens use two-column layout */
+    @media (min-width: 920px){
+      main {
+        grid-template-columns: 2fr 360px;
+        align-items: start;
+      }
     }
 
     .card {
-      background: var(--card);
-      border-radius: 12px;
+      background: linear-gradient(180deg,var(--card),var(--glass));
+      border-radius: var(--radius);
       padding: 1.2rem 1.4rem;
-      box-shadow: 0 6px 18px rgba(30,30,30,0.06);
-      margin-bottom: 1.5rem;
+      box-shadow: var(--shadow);
+      color: var(--text);
     }
+    h2 { margin:0 0 0.6rem 0; font-size:1.2rem; color:var(--text); }
+    .meta { color: var(--muted); font-size:0.95rem; margin-bottom:0.6rem; }
 
-    h2 {
-      margin-top: 0;
-      margin-bottom: 0.6rem;
-      color: #111;
-      font-size: 1.25rem;
+    /* Publications style: links inherit color and are bold */
+    #publications ul, #research ul, #skills ul, #teaching ul { margin:0; padding-left:1.2rem; }
+    #publications a.pub-link { font-weight:700; color: inherit; text-decoration:none; }
+    #publications a.pub-link:hover { text-decoration: underline; }
+
+    /* Right column small cards */
+    .side {
+      display: grid;
+      gap: 1rem;
     }
+    .tagline { font-size:0.97rem; margin-bottom:0.6rem; }
 
-    p, li { color: #333; line-height:1.45; }
-    ul { padding-left:1.2rem; margin:0.2rem 0 0.6rem; }
-
-    .meta { color: var(--muted); font-size: 0.95rem; margin-bottom: 0.6rem; }
-    .contact a { color: var(--accent); text-decoration: none; font-weight:600; }
+    /* Contact links (consistent look) */
+    .contact a { font-weight:600; color: var(--accent); word-break:break-all; }
     .contact a:hover { text-decoration: underline; }
 
+    /* Footer */
     footer {
-      background-color: #111;
-      color: white;
-      text-align: center;
+      max-width: var(--maxw);
+      margin: 2rem auto 4rem;
       padding: 1rem;
-      margin-top: 2rem;
+      text-align:center;
+      color:var(--muted);
+      font-size:0.95rem;
     }
 
-    /* responsive */
+    /* Focus and keyboard accessibility */
+    :focus { outline: none; }
+    .sr-only { position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden; }
+
+    /* Print */
+    @media print {
+      nav, .btn, .nav-utilities, .avatar { display:none !important; }
+      body { background: #fff; color: #000; }
+      main { grid-template-columns: 1fr !important; max-width: 700px; margin: 0; padding: 0; }
+      .card { box-shadow: none; border-radius: 0; padding: 0; }
+    }
+
+    /* Small screens */
     @media (max-width:600px){
-      header h1 { font-size: 1.5rem; }
-      nav a { display:inline-block; margin:0.45rem 0.6rem; }
+      header .hero { grid-template-columns: 1fr; gap: 0.6rem; text-align:center; }
+      .nav-links { display:flex; flex-wrap:wrap; justify-content:center; gap:0.4rem; }
     }
   </style>
 </head>
-<body>
-
-  <header>
-    <h1>Aakash Kumar</h1>
-    <p>PhD Student — Theoretical Machine Learning · Physics </p>
+<body itemscope itemtype="http://schema.org/Person" class="">
+  <header class="site-header" role="banner">
+    <div class="hero" aria-label="Site header">
+      <div class="avatar" aria-hidden="true">AK</div>
+      <div style="text-align:left;">
+        <h1 itemprop="name">Aakash Kumar</h1>
+        <p class="lead" itemprop="jobTitle">PhD Student — Theoretical Machine Learning · Physics</p>
+        <p class="meta" style="margin-top:8px;">CNRS / INRIA / COATI / 3IA / Université Côte d’Azur, Nice — expected 2025–2028</p>
+      </div>
+    </div>
   </header>
 
-  <nav>
-    <a href="#about">About</a>
-    <a href="#research">Research</a>
-    <a href="#publications">Publications</a>
-    <a href="#teaching">Teaching</a>
-    <a href="#contact">Contact</a>
+  <nav class="site-nav" role="navigation" aria-label="Primary navigation">
+    <div class="nav-inner">
+      <div class="nav-links" id="primary-nav">
+        <a href="#about">About</a>
+        <a href="#research">Research</a>
+        <a href="#publications">Publications</a>
+        <a href="#teaching">Teaching</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div class="nav-utilities">
+        <button id="theme-toggle" class="btn ghost" aria-pressed="false" title="Toggle light/dark">Toggle theme</button>
+        <!-- Replace href with actual CV file if you have one -->
+        <a class="btn" href="#" onclick="alert('Replace with link to your CV file'); return false;">Download CV</a>
+      </div>
+    </div>
   </nav>
 
   <main>
-    <section id="about" class="card">
-      <h2>About</h2>
-      <p class="meta">PhD student (expected 2025–2028) — CNRS / INRIA / COATI / 3IA / Université Côte d’Azur, Nice</p>
-      <p>
-        I am a PhD student working on the theoretical aspects of machine learning. My background is in physics (BS–MS, IISER Kolkata) and I work on problems at the intersection of machine learning, theoretical computer science and physics. Specifically, my interests include Hopfield networks and brain inspired learning dynamics, theory of neural network pruning and neural scaling laws.
+    <!-- Left / main column -->
+    <section id="about" class="card" aria-labelledby="about-heading">
+      <h2 id="about-heading">About</h2>
+      <p class="meta"><strong>PhD student</strong> (expected 2025–2028) — CNRS / INRIA / COATI / 3IA / Université Côte d’Azur, Nice</p>
+      <p itemprop="description">
+        I am a PhD student working on theoretical aspects of machine learning. My background is in physics (BS–MS, IISER Kolkata). I work at the intersection of machine learning, theoretical computer science and physics. My interests include Hopfield networks and brain-inspired learning dynamics, theory of neural network pruning, quantization and neural scaling laws.
       </p>
-      <p class="meta"><strong>Advisor:</strong> Prof. Emanuele Natale</p>
+
+      <p class="meta" style="margin-top:0.8rem;"><strong>Advisor:</strong> <span itemprop="alumniOf">Prof. Emanuele Natale</span></p>
     </section>
 
-    <section id="research" class="card">
-      <h2>Research</h2>
+    <section id="research" class="card" aria-labelledby="research-heading">
+      <h2 id="research-heading">Research</h2>
       <ul>
-        <li>Research area: Theoretical Machine Learning.</li>
-        <li>Current work: Hopfield networks, theoretical analysis of quantization, pruning and strong lottery ticket hypothesis.</li>
+        <li><strong>Research area:</strong> Theoretical Machine Learning.</li>
+        <li><strong>Current work:</strong> Hopfield networks, theoretical analysis of quantization, pruning and the strong lottery ticket hypothesis.</li>
       </ul>
     </section>
 
-<style>
-  #publications a {
-    color: inherit;
-    text-decoration: none;
-    font-weight: bold;
-  }
+    <section id="publications" class="card" aria-labelledby="pubs-heading">
+      <h2 id="pubs-heading">Publications</h2>
+      <ul>
+        <li>
+          <span style="display:block;">
+            <a class="pub-link" href="https://openreview.net/forum?id=uFiFLZyL9j" target="_blank" rel="noopener noreferrer">
+              A Unified Framework for Quantized and Continuous Strong Lottery Tickets
+            </a>
+          </span>
+          <span class="meta">— under review (double-blind), 2025.</span>
+        </li>
+        <li style="margin-top:0.6rem;">
+          <span style="display:block;">
+            <a class="pub-link" href="https://arxiv.org/abs/2508.11020" target="_blank" rel="noopener noreferrer">
+              Quantization vs Pruning: Insights from the Strong Lottery Ticket Hypothesis
+            </a>
+          </span>
+          <span class="meta">— under review (double-blind), 2025.</span>
+        </li>
+      </ul>
+      <p class="meta" style="margin-top:0.8rem;">Notes: Links inherit color for a uniform, non-blue appearance. If you'd like publisher/journal badges, I can add small metadata next to each item.</p>
+    </section>
 
-  #publications a:hover {
-    text-decoration: underline;
-    font-weight: bold;
-  }
-</style>
-
-<section id="publications" class="card">
-  <h2>Publications</h2>
-  <ul>
-    <li>
-      <strong>
-        <a href="https://openreview.net/forum?id=uFiFLZyL9j" target="_blank" rel="noopener noreferrer">
-          A Unified Framework for Quantized and Continuous Strong Lottery Tickets
-        </a>
-      </strong>
-      — under review (double-blind), 2025.
-    </li>
-    <li>
-      <strong>
-        <a href="https://arxiv.org/abs/2508.11020#:~:text=While%20prior%20work%20on%20SLTH,necessary%20overparameterization%20of%20the%20initial" target="_blank" rel="noopener noreferrer">
-          Quantization vs Pruning: Insights from the Strong Lottery Ticket Hypothesis
-        </a>
-      </strong>
-      — under review (double-blind), 2025.
-    </li>
-  </ul>
-</section>
-
-    <section id="teaching" class="card">
-      <h2>Teaching & Talks</h2>
+    <section id="teaching" class="card" aria-labelledby="teaching-heading">
+      <h2 id="teaching-heading">Teaching & Talks</h2>
       <ul>
         <li><strong>Teaching Assistant</strong> — Mathematical Methods of Physics I, IISER Kolkata, Spring 2025 (support & grading).</li>
-        <li><strong>Invited / Student talks</strong> — A talk on early contributions of John Hopfield and Geoffrey Hinton presented at IISER Kolkata (2025).</li>
+        <li><strong>Invited / Student talks</strong> — Talk on early contributions of John Hopfield and Geoffrey Hinton (IISER Kolkata, 2025).</li>
       </ul>
     </section>
 
-    <section id="skills" class="card">
-      <h2>Skills</h2>
+    <section id="skills" class="card" aria-labelledby="skills-heading">
+      <h2 id="skills-heading">Skills</h2>
       <p class="meta">Languages & Programming</p>
       <ul>
         <li>Languages: English, Hindi</li>
@@ -179,20 +287,83 @@
       </ul>
     </section>
 
-  <section id="contact" class="card contact">
-    <h2>Contact</h2>
-    <p>Email: <a href="mailto:aakash.kumar@inria.fr">aakash.kumar@inria.fr</a></p>
-    <p>Google Scholar: <a href="https://scholar.google.com/citations?user=2OShat0AAAAJ&hl=en&authuser=1&oi=sra" target="_blank" rel="noopener noreferrer">Aakash Kumar</a></p>
-    <p>ORCID: <a href="https://orcid.org/0009-0002-7491-9629" target="_blank" rel="noopener noreferrer">0009-0002-7491-9629</a></p>
-    <p>GitHub: <a href="https://github.com/Aakash-verse" target="_blank" rel="noopener noreferrer">Aakash-verse</a></p>
-    <p>LinkedIn: <a href="https://linkedin.com/in/aakash-kumar-9a2895364" target="_blank" rel="noopener noreferrer">Aakash Kumar</a></p>
-  </section>
+    <!-- Right / side column -->
+    <aside class="side" aria-label="Sidebar">
+      <div class="card">
+        <h2>Contact</h2>
+        <p class="contact meta">Email: <a href="mailto:aakash.kumar@inria.fr" itemprop="email">aakash.kumar@inria.fr</a></p>
+        <p class="contact"><strong>Google Scholar:</strong> <a href="https://scholar.google.com/citations?user=2OShat0AAAAJ&hl=en" target="_blank" rel="noopener noreferrer">Aakash Kumar</a></p>
+        <p class="contact"><strong>ORCID:</strong> <a href="https://orcid.org/0009-0002-7491-9629" target="_blank" rel="noopener noreferrer">0009-0002-7491-9629</a></p>
+        <p class="contact"><strong>GitHub:</strong> <a href="https://github.com/Aakash-verse" target="_blank" rel="noopener noreferrer">Aakash-verse</a></p>
+        <p class="contact"><strong>LinkedIn:</strong> <a href="https://linkedin.com/in/aakash-kumar-9a2895364" target="_blank" rel="noopener noreferrer">Aakash Kumar</a></p>
+      </div>
 
+      <div class="card">
+        <h2>Quick bio</h2>
+        <p class="tagline">PhD student & researcher merging physics intuition with theoretical ML. Interested in rigorous guarantees for pruning, quantization and biologically-inspired models.</p>
+        <p style="font-size:0.9rem; color:var(--muted); margin-top:0.6rem;">Want to present projects, badges, or teaching materials here? I can help layout a compact projects list or an interactive publications filter.</p>
+      </div>
+    </aside>
   </main>
 
-  <footer>
-    &copy; 2025 Aakash Kumar
+  <footer role="contentinfo">
+    <div style="max-width:var(--maxw); margin:0 auto; padding:0 1rem;">
+      <small>&copy; 2025 Aakash Kumar — Built with ♡ • <a href="#contact">Contact</a></small>
+    </div>
   </footer>
 
+  <script>
+    // Theme toggle (persist)
+    (function(){
+      const root = document.documentElement;
+      const btn = document.getElementById('theme-toggle');
+      const stored = localStorage.getItem('theme');
+      if (stored === 'dark') root.classList.add('dark');
+
+      function updateButton() {
+        const isDark = root.classList.contains('dark');
+        btn.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+        btn.textContent = isDark ? 'Light' : 'Dark';
+      }
+      updateButton();
+
+      btn.addEventListener('click', () => {
+        const isDark = root.classList.toggle('dark');
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        updateButton();
+      });
+    })();
+
+    // Smooth scroll + active nav highlight
+    (function(){
+      const navLinks = document.querySelectorAll('#primary-nav a');
+      const sections = Array.from(navLinks).map(a => document.querySelector(a.getAttribute('href')));
+
+      function onScroll(){
+        const offset = window.scrollY + 120; // top margin
+        let activeIndex = 0;
+        for (let i = 0; i < sections.length; i++){
+          const sec = sections[i];
+          if (!sec) continue;
+          if (sec.offsetTop <= offset) activeIndex = i;
+        }
+        navLinks.forEach((a, idx) => a.classList.toggle('active', idx === activeIndex));
+      }
+      window.addEventListener('scroll', onScroll, {passive:true});
+      onScroll();
+
+      // smooth behavior for anchor clicks
+      navLinks.forEach(a=>{
+        a.addEventListener('click', (e)=>{
+          e.preventDefault();
+          const el = document.querySelector(a.getAttribute('href'));
+          if (!el) return;
+          el.scrollIntoView({behavior:'smooth', block:'start'});
+          // update focus for accessibility
+          setTimeout(()=> el.querySelector('h2')?.focus?.(), 500);
+        });
+      });
+    })();
+  </script>
 </body>
 </html>
