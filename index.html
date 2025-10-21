@@ -3,367 +3,335 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Aakash Kumar — Theoretical Machine Learning</title>
-  <meta name="description" content="Aakash Kumar — PhD student (Theoretical Machine Learning). Research on Hopfield networks, pruning, quantization and neural scaling laws." />
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <title>Aakash Kumar — Header Graph</title>
   <style>
     :root{
-      --bg: #f7f7f8;
-      --card: #ffffff;
-      --muted: #666666;
-      --text: #111111;
-      --accent: #111111;     /* primary text / link color */
-      --glass: rgba(255,255,255,0.6);
-      --shadow: 0 10px 30px rgba(20,20,20,0.06);
-      --radius: 12px;
-      --maxw: 1100px;
-      --accent-contrast: #0b0b0b;
-    }
-
-    /* Dark theme variables (switched via .dark on <html>) */
-    html.dark {
-      --bg: #0b0b0d;
-      --card: #0f1113;
-      --muted: #9aa0a6;
-      --text: #e6e8ea;
-      --accent: #e6e8ea;
+      --electric-1: #00d4ff; /* bright electric blue */
+      --electric-2: #00a8ff; /* deeper tone */
+      --bg: #0b0f14;
       --glass: rgba(255,255,255,0.02);
-      --shadow: 0 10px 30px rgba(0,0,0,0.6);
     }
+    html,body{height:100%;margin:0;background:var(--bg);font-family:Inter,system-ui,Arial,sans-serif}
 
-    /* Global */
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      background: linear-gradient(180deg,var(--bg),#fff 150%);
-      color: var(--text);
-      line-height: 1.5;
-    }
-
-    a { color: inherit; text-decoration: none; }
-    a:focus { outline: 3px solid rgba(50,120,255,0.18); outline-offset: 3px; border-radius:6px; }
-
-    /* Header + nav */
-    header.site-header {
-      background: var(--accent) ;
-      color: white;
-      padding: 2rem 1rem;
-      text-align: center;
-      position: relative;
-    }
-    header .hero {
-      max-width: var(--maxw);
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: auto 1fr;
-      gap: 1rem;
-      align-items: center;
-      padding: 0 1rem;
-    }
-    .avatar {
-      width: 76px;
-      height: 76px;
-      border-radius: 12px;
-      background: linear-gradient(135deg,#2b2b2b,#111);
-      display:flex; align-items:center; justify-content:center;
-      color: white; font-weight:700; font-size:1.25rem;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.18);
-    }
-    header h1 { margin:0; font-size:1.4rem; letter-spacing:0.2px; }
-    header p.lead { margin:0.35rem 0 0; opacity:0.95; font-weight:500; font-size:0.95rem; }
-
-    nav.site-nav {
-      background: rgba(255,255,255,0.02);
-      position: sticky;
-      top: 0;
-      z-index: 30;
+    /* header that contains the canvas background */
+    .hero-wrap{
+      position:relative;
+      min-height:240px;
       display:flex;
+      align-items:center;
       justify-content:center;
-      border-bottom: 1px solid rgba(0,0,0,0.04);
-      backdrop-filter: blur(6px);
-    }
-    nav .nav-inner {
-      max-width: var(--maxw);
-      width:100%;
-      padding: 0.3rem 1rem;
-      display:flex;
-      gap:0.5rem;
-      align-items:center;
-      justify-content:space-between;
-    }
-    .nav-links {
-      display:flex;
-      gap:0.6rem;
-      align-items:center;
-    }
-    .nav-links a {
-      padding: 0.5rem 0.6rem;
       color: white;
-      opacity: 0.95;
-      font-weight:600;
-      font-size:0.95rem;
-      border-radius:8px;
-    }
-    .nav-links a.active, .nav-links a:hover { text-decoration: underline; }
-
-    /* Theme toggle / CV button */
-    .nav-utilities { display:flex; gap:0.6rem; align-items:center; }
-    .btn {
-      background: none;
-      border: 1px solid rgba(255,255,255,0.08);
-      color: white;
-      padding: 0.45rem 0.6rem;
-      border-radius:10px;
-      font-weight:600;
-      font-size:0.9rem;
-      cursor:pointer;
-    }
-    .btn.ghost { background: transparent; }
-    .btn:active { transform: translateY(1px); }
-
-    /* Main layout */
-    main {
-      max-width: var(--maxw);
-      margin: 2rem auto;
-      padding: 0 1rem 4rem;
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 1.25rem;
+      overflow:hidden;
+      padding:2.25rem 1rem;
+      box-sizing:border-box;
     }
 
-    /* On wide screens use two-column layout */
-    @media (min-width: 920px){
-      main {
-        grid-template-columns: 2fr 360px;
-        align-items: start;
-      }
+    /* The canvas sits behind the content */
+    canvas.graph-canvas{
+      position:absolute; inset:0; width:100%; height:100%; display:block; z-index:0;
     }
 
-    .card {
-      background: linear-gradient(180deg,var(--card),var(--glass));
-      border-radius: var(--radius);
-      padding: 1.2rem 1.4rem;
-      box-shadow: var(--shadow);
-      color: var(--text);
+    /* content (name + subtitle) sits above canvas */
+    .hero-content{
+      position:relative; z-index:2; text-align:center; max-width:1200px; width:100%;
+      pointer-events:none; /* make mouse interact with canvas beneath */
     }
-    h2 { margin:0 0 0.6rem 0; font-size:1.2rem; color:var(--text); }
-    .meta { color: var(--muted); font-size:0.95rem; margin-bottom:0.6rem; }
+    .hero-content h1{margin:0; font-size:2.1rem; letter-spacing:0.6px; font-weight:700; color: white}
+    .hero-content p{margin:0.5rem 0 0; color: rgba(255,255,255,0.85)}
 
-    /* Publications style: links inherit color and are bold */
-    #publications ul, #research ul, #skills ul, #teaching ul { margin:0; padding-left:1.2rem; }
-    #publications a.pub-link { font-weight:700; color: inherit; text-decoration:none; }
-    #publications a.pub-link:hover { text-decoration: underline; }
+    /* small accessibility hint: if user wants to interact with links inside header, give them pointer events back */
+    .hero-content a{pointer-events:auto}
 
-    /* Right column small cards */
-    .side {
-      display: grid;
-      gap: 1rem;
-    }
-    .tagline { font-size:0.97rem; margin-bottom:0.6rem; }
+    /* subtle vignette over canvas for contrast */
+    .vignette{ position:absolute; inset:0; pointer-events:none; z-index:1; background:radial-gradient(ellipse at center, rgba(0,0,0,0) 30%, rgba(0,0,0,0.18) 100%); }
 
-    /* Contact links (consistent look) */
-    .contact a { font-weight:600; color: var(--accent); word-break:break-all; }
-    .contact a:hover { text-decoration: underline; }
-
-    /* Footer */
-    footer {
-      max-width: var(--maxw);
-      margin: 2rem auto 4rem;
-      padding: 1rem;
-      text-align:center;
-      color:var(--muted);
-      font-size:0.95rem;
+    /* fallbacks & reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      canvas.graph-canvas{ animation: none !important }
     }
 
-    /* Focus and keyboard accessibility */
-    :focus { outline: none; }
-    .sr-only { position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden; }
-
-    /* Print */
-    @media print {
-      nav, .btn, .nav-utilities, .avatar { display:none !important; }
-      body { background: #fff; color: #000; }
-      main { grid-template-columns: 1fr !important; max-width: 700px; margin: 0; padding: 0; }
-      .card { box-shadow: none; border-radius: 0; padding: 0; }
-    }
-
-    /* Small screens */
-    @media (max-width:600px){
-      header .hero { grid-template-columns: 1fr; gap: 0.6rem; text-align:center; }
-      .nav-links { display:flex; flex-wrap:wrap; justify-content:center; gap:0.4rem; }
-    }
+    /* small screens */
+    @media (max-width:480px){ .hero-content h1{font-size:1.4rem} }
   </style>
 </head>
-<body itemscope itemtype="http://schema.org/Person" class="">
-  <header class="site-header" role="banner">
-    <div class="hero" aria-label="Site header">
-      <div class="avatar" aria-hidden="true">AK</div>
-      <div style="text-align:left;">
-        <h1 itemprop="name">Aakash Kumar</h1>
-        <p class="lead" itemprop="jobTitle">PhD Student — Theoretical Machine Learning · Physics</p>
-        <p class="meta" style="margin-top:8px;">CNRS / INRIA / COATI / 3IA / Université Côte d’Azur, Nice — expected 2025–2028</p>
-      </div>
+<body>
+
+  <header class="hero-wrap" role="banner" aria-label="Header with animated graph background">
+    <canvas class="graph-canvas" id="graphCanvas" aria-hidden="true"></canvas>
+
+    <div class="vignette" aria-hidden="true"></div>
+
+    <div class="hero-content">
+      <h1>Aakash Kumar</h1>
+      <p>PhD Student — Theoretical Machine Learning · Physics</p>
     </div>
   </header>
 
-  <nav class="site-nav" role="navigation" aria-label="Primary navigation">
-    <div class="nav-inner">
-      <div class="nav-links" id="primary-nav">
-        <a href="#about">About</a>
-        <a href="#research">Research</a>
-        <a href="#publications">Publications</a>
-        <a href="#teaching">Teaching</a>
-        <a href="#contact">Contact</a>
-      </div>
-      <div class="nav-utilities">
-        <button id="theme-toggle" class="btn ghost" aria-pressed="false" title="Toggle light/dark">Toggle theme</button>
-        <!-- Replace href with actual CV file if you have one -->
-        <a class="btn" href="#" onclick="alert('Replace with link to your CV file'); return false;">Download CV</a>
-      </div>
-    </div>
-  </nav>
-
-  <main>
-    <!-- Left / main column -->
-    <section id="about" class="card" aria-labelledby="about-heading">
-      <h2 id="about-heading">About</h2>
-      <p class="meta"><strong>PhD student</strong> (expected 2025–2028) — CNRS / INRIA / COATI / 3IA / Université Côte d’Azur, Nice</p>
-      <p itemprop="description">
-        I am a PhD student working on theoretical aspects of machine learning. My background is in physics (BS–MS, IISER Kolkata). I work at the intersection of machine learning, theoretical computer science and physics. My interests include Hopfield networks and brain-inspired learning dynamics, theory of neural network pruning, quantization and neural scaling laws.
-      </p>
-
-      <p class="meta" style="margin-top:0.8rem;"><strong>Advisor:</strong> <span itemprop="alumniOf">Prof. Emanuele Natale</span></p>
-    </section>
-
-    <section id="research" class="card" aria-labelledby="research-heading">
-      <h2 id="research-heading">Research</h2>
-      <ul>
-        <li><strong>Research area:</strong> Theoretical Machine Learning.</li>
-        <li><strong>Current work:</strong> Hopfield networks, theoretical analysis of quantization, pruning and the strong lottery ticket hypothesis.</li>
-      </ul>
-    </section>
-
-    <section id="publications" class="card" aria-labelledby="pubs-heading">
-      <h2 id="pubs-heading">Publications</h2>
-      <ul>
-        <li>
-          <span style="display:block;">
-            <a class="pub-link" href="https://openreview.net/forum?id=uFiFLZyL9j" target="_blank" rel="noopener noreferrer">
-              A Unified Framework for Quantized and Continuous Strong Lottery Tickets
-            </a>
-          </span>
-          <span class="meta">— under review (double-blind), 2025.</span>
-        </li>
-        <li style="margin-top:0.6rem;">
-          <span style="display:block;">
-            <a class="pub-link" href="https://arxiv.org/abs/2508.11020" target="_blank" rel="noopener noreferrer">
-              Quantization vs Pruning: Insights from the Strong Lottery Ticket Hypothesis
-            </a>
-          </span>
-          <span class="meta">— under review (double-blind), 2025.</span>
-        </li>
-      </ul>
-      <p class="meta" style="margin-top:0.8rem;">Notes: Links inherit color for a uniform, non-blue appearance. If you'd like publisher/journal badges, I can add small metadata next to each item.</p>
-    </section>
-
-    <section id="teaching" class="card" aria-labelledby="teaching-heading">
-      <h2 id="teaching-heading">Teaching & Talks</h2>
-      <ul>
-        <li><strong>Teaching Assistant</strong> — Mathematical Methods of Physics I, IISER Kolkata, Spring 2025 (support & grading).</li>
-        <li><strong>Invited / Student talks</strong> — Talk on early contributions of John Hopfield and Geoffrey Hinton (IISER Kolkata, 2025).</li>
-      </ul>
-    </section>
-
-    <section id="skills" class="card" aria-labelledby="skills-heading">
-      <h2 id="skills-heading">Skills</h2>
-      <p class="meta">Languages & Programming</p>
-      <ul>
-        <li>Languages: English, Hindi</li>
-        <li>Programming: Python, C++, C</li>
-      </ul>
-    </section>
-
-    <!-- Right / side column -->
-    <aside class="side" aria-label="Sidebar">
-      <div class="card">
-        <h2>Contact</h2>
-        <p class="contact meta">Email: <a href="mailto:aakash.kumar@inria.fr" itemprop="email">aakash.kumar@inria.fr</a></p>
-        <p class="contact"><strong>Google Scholar:</strong> <a href="https://scholar.google.com/citations?user=2OShat0AAAAJ&hl=en" target="_blank" rel="noopener noreferrer">Aakash Kumar</a></p>
-        <p class="contact"><strong>ORCID:</strong> <a href="https://orcid.org/0009-0002-7491-9629" target="_blank" rel="noopener noreferrer">0009-0002-7491-9629</a></p>
-        <p class="contact"><strong>GitHub:</strong> <a href="https://github.com/Aakash-verse" target="_blank" rel="noopener noreferrer">Aakash-verse</a></p>
-        <p class="contact"><strong>LinkedIn:</strong> <a href="https://linkedin.com/in/aakash-kumar-9a2895364" target="_blank" rel="noopener noreferrer">Aakash Kumar</a></p>
-      </div>
-
-      <div class="card">
-        <h2>Quick bio</h2>
-        <p class="tagline">PhD student & researcher merging physics intuition with theoretical ML. Interested in rigorous guarantees for pruning, quantization and biologically-inspired models.</p>
-        <p style="font-size:0.9rem; color:var(--muted); margin-top:0.6rem;">Want to present projects, badges, or teaching materials here? I can help layout a compact projects list or an interactive publications filter.</p>
-      </div>
-    </aside>
-  </main>
-
-  <footer role="contentinfo">
-    <div style="max-width:var(--maxw); margin:0 auto; padding:0 1rem;">
-      <small>&copy; 2025 Aakash Kumar — Built with ♡ • <a href="#contact">Contact</a></small>
-    </div>
-  </footer>
-
   <script>
-    // Theme toggle (persist)
-    (function(){
-      const root = document.documentElement;
-      const btn = document.getElementById('theme-toggle');
-      const stored = localStorage.getItem('theme');
-      if (stored === 'dark') root.classList.add('dark');
+  // Animated node-line graph background — electric blue theme
+  // Features:
+  // - moving nodes with spring-to-origin for stability
+  // - lines drawn between nearby nodes with alpha scaled by distance
+  // - nodes react to pointer by repelling and lighting up
+  // - respects devicePixelRatio and prefers-reduced-motion
 
-      function updateButton() {
-        const isDark = root.classList.contains('dark');
-        btn.setAttribute('aria-pressed', isDark ? 'true' : 'false');
-        btn.textContent = isDark ? 'Light' : 'Dark';
+  (function(){
+    const canvas = document.getElementById('graphCanvas');
+    const ctx = canvas.getContext('2d', { alpha: true });
+    let DPR = Math.max(1, window.devicePixelRatio || 1);
+
+    // Config — tweak these values to change behavior
+    const CONFIG = {
+      nodeCountDensity: 0.0009,   // nodes per px^2 (scaled by area)
+      nodeRadius: 2.2,            // base radius in CSS pixels
+      maxLinkDistance: 140,       // max px distance to draw link
+      lineWidth: 0.9,
+      speed: 0.5,                 // global animation speed multiplier
+      repulseRadius: 120,         // pointer repulsion radius
+      pointerForce: 0.75,         // how strongly pointer repels nodes
+      originAttraction: 0.02,     // spring strength to original position
+      friction: 0.92,             // velocity damping
+      color1: '#00d4ff',         // electric bright
+      color2: '#00a8ff'          // deeper
+    };
+
+    // Respect reduced motion preference
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced){
+      CONFIG.speed = 0; // freeze animation
+    }
+
+    let width = 0, height = 0, nodes = [];
+    const pointer = { x: null, y: null, down:false };
+
+    function resize(){
+      const rect = canvas.getBoundingClientRect();
+      width = Math.max(100, Math.floor(rect.width));
+      height = Math.max(80, Math.floor(rect.height));
+      canvas.width = Math.floor(width * DPR);
+      canvas.height = Math.floor(height * DPR);
+      canvas.style.width = width + 'px';
+      canvas.style.height = height + 'px';
+      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+
+      // create or prune nodes based on area
+      const area = width * height;
+      const desired = Math.max(12, Math.round(area * CONFIG.nodeCountDensity));
+      if (nodes.length < desired) {
+        const toAdd = desired - nodes.length;
+        for (let i=0;i<toAdd;i++) nodes.push(createNode());
+      } else if (nodes.length > desired) {
+        nodes.length = desired;
       }
-      updateButton();
 
-      btn.addEventListener('click', () => {
-        const isDark = root.classList.toggle('dark');
-        localStorage.setItem('theme', isDark ? 'dark' : 'light');
-        updateButton();
+      // Reassign origin positions to fit new size
+      nodes.forEach(n => {
+        n.ox = n.oxNormalized * width;
+        n.oy = n.oyNormalized * height;
+        // if outside new bounds, clamp
+        n.x = Math.max(0, Math.min(width, n.x));
+        n.y = Math.max(0, Math.min(height, n.y));
       });
-    })();
+    }
 
-    // Smooth scroll + active nav highlight
-    (function(){
-      const navLinks = document.querySelectorAll('#primary-nav a');
-      const sections = Array.from(navLinks).map(a => document.querySelector(a.getAttribute('href')));
+    function createNode(){
+      // spread origin positions in a subtle grid with jitter
+      const ox = Math.random();
+      const oy = Math.random();
+      const node = {
+        oxNormalized: ox, // in [0,1] to allow resize recompute
+        oyNormalized: oy,
+        ox: ox * width,
+        oy: oy * height,
+        x: ox * width + (Math.random()-0.5)*30,
+        y: oy * height + (Math.random()-0.5)*30,
+        vx: (Math.random()-0.5) * 0.6,
+        vy: (Math.random()-0.5) * 0.6,
+        r: CONFIG.nodeRadius,
+        pulse: Math.random()*Math.PI*2,
+        hueShift: Math.random()*40 - 20 // slight variance
+      };
+      return node;
+    }
 
-      function onScroll(){
-        const offset = window.scrollY + 120; // top margin
-        let activeIndex = 0;
-        for (let i = 0; i < sections.length; i++){
-          const sec = sections[i];
-          if (!sec) continue;
-          if (sec.offsetTop <= offset) activeIndex = i;
+    // Utility: linear interpolation
+    function lerp(a,b,t){return a+(b-a)*t}
+
+    // Animation loop
+    let last = performance.now();
+    function frame(now){
+      const dt = Math.min(40, now - last) / 16.666; // ~60fps baseline
+      last = now;
+      update(dt * CONFIG.speed);
+      render();
+      if (CONFIG.speed !== 0) requestAnimationFrame(frame);
+    }
+
+    function update(elapsed){
+      // elapsed may be 0 if reduced motion
+      nodes.forEach(node => {
+        // attraction to origin (spring)
+        const dx0 = node.ox - node.x;
+        const dy0 = node.oy - node.y;
+        node.vx += dx0 * CONFIG.originAttraction * elapsed;
+        node.vy += dy0 * CONFIG.originAttraction * elapsed;
+
+        // slight procedural motion (per-node subtle wandering)
+        node.pulse += 0.01 * elapsed;
+        node.vx += Math.cos(node.pulse) * 0.003 * elapsed;
+        node.vy += Math.sin(node.pulse) * 0.003 * elapsed;
+
+        // pointer interaction: repulse if within radius
+        if (pointer.x !== null){
+          const dx = node.x - pointer.x;
+          const dy = node.y - pointer.y;
+          const dist = Math.hypot(dx,dy);
+          if (dist < CONFIG.repulseRadius){
+            // normalized force away from pointer
+            const force = (1 - (dist / CONFIG.repulseRadius)) * CONFIG.pointerForce * (pointer.down ? 2.2 : 1.0);
+            const nx = dx/dist || (Math.random()-0.5);
+            const ny = dy/dist || (Math.random()-0.5);
+            node.vx += nx * force * elapsed * 1.2;
+            node.vy += ny * force * elapsed * 1.2;
+          }
         }
-        navLinks.forEach((a, idx) => a.classList.toggle('active', idx === activeIndex));
-      }
-      window.addEventListener('scroll', onScroll, {passive:true});
-      onScroll();
 
-      // smooth behavior for anchor clicks
-      navLinks.forEach(a=>{
-        a.addEventListener('click', (e)=>{
-          e.preventDefault();
-          const el = document.querySelector(a.getAttribute('href'));
-          if (!el) return;
-          el.scrollIntoView({behavior:'smooth', block:'start'});
-          // update focus for accessibility
-          setTimeout(()=> el.querySelector('h2')?.focus?.(), 500);
-        });
+        // velocity damping
+        node.vx *= CONFIG.friction;
+        node.vy *= CONFIG.friction;
+
+        // step
+        node.x += node.vx * elapsed;
+        node.y += node.vy * elapsed;
+
+        // small bounds clamp with wrap-around-like pull
+        if (node.x < -20) node.x = width + 20;
+        if (node.x > width + 20) node.x = -20;
+        if (node.y < -20) node.y = height + 20;
+        if (node.y > height + 20) node.y = -20;
       });
-    })();
+    }
+
+    function render(){
+      ctx.clearRect(0,0,width,height);
+
+      // draw links
+      ctx.lineWidth = CONFIG.lineWidth;
+      ctx.lineCap = 'round';
+      for (let i=0;i<nodes.length;i++){
+        const a = nodes[i];
+        for (let j=i+1;j<nodes.length;j++){
+          const b = nodes[j];
+          const dx = a.x - b.x;
+          const dy = a.y - b.y;
+          const d2 = dx*dx + dy*dy;
+          if (d2 > CONFIG.maxLinkDistance * CONFIG.maxLinkDistance) continue;
+          const d = Math.sqrt(d2);
+          const t = 1 - (d / CONFIG.maxLinkDistance); // 0..1 (closer => stronger)
+
+          // color gradient based on midpoint + pointer proximity
+          const mx = (a.x + b.x) / 2;
+          const my = (a.y + b.y) / 2;
+
+          // alpha shaped by distance and by proximity to pointer (highlight)
+          let alpha = Math.pow(t, 1.1) * 0.85;
+          if (pointer.x !== null){
+            const pd = Math.hypot(mx - pointer.x, my - pointer.y);
+            if (pd < CONFIG.repulseRadius) alpha = Math.max(alpha, 0.9 * (1 - pd / CONFIG.repulseRadius));
+          }
+
+          // gradient stroke
+          const grad = ctx.createLinearGradient(a.x, a.y, b.x, b.y);
+          grad.addColorStop(0, shadeColor(CONFIG.color1, a.hueShift, alpha));
+          grad.addColorStop(1, shadeColor(CONFIG.color2, b.hueShift, alpha));
+
+          ctx.strokeStyle = grad;
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.stroke();
+        }
+      }
+
+      // draw nodes
+      for (let i=0;i<nodes.length;i++){
+        const n = nodes[i];
+        // node highlight when pointer near
+        let alpha = 0.85;
+        if (pointer.x !== null){
+          const pd = Math.hypot(n.x - pointer.x, n.y - pointer.y);
+          if (pd < CONFIG.repulseRadius) alpha = lerp(1, 0.6, pd / CONFIG.repulseRadius);
+        }
+
+        // subtle pulsing radius
+        const pulse = 0.6 + Math.sin(n.pulse*1.6) * 0.3;
+        const r = Math.max(0.8, n.r * pulse);
+
+        // radial gradient fill for glow
+        const g = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, Math.max(8, r*6));
+        g.addColorStop(0, shadeColor(CONFIG.color1, n.hueShift, alpha * 0.95));
+        g.addColorStop(0.6, shadeColor(CONFIG.color2, n.hueShift, alpha * 0.25));
+        g.addColorStop(1, 'rgba(0,0,0,0)');
+
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, Math.max(1.4, r*2.6), 0, Math.PI*2);
+        ctx.fill();
+
+        // core dot
+        ctx.fillStyle = shadeColor('#ffffff', 0, alpha);
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, Math.max(0.8, r*0.45), 0, Math.PI*2);
+        ctx.fill();
+      }
+    }
+
+    // small helper to apply hue shift + alpha into rgba string
+    function shadeColor(hex, hueShift=0, alpha=1){
+      // simple hex -> rgb
+      const c = hex.replace('#','');
+      const r = parseInt(c.substring(0,2),16);
+      const g = parseInt(c.substring(2,4),16);
+      const b = parseInt(c.substring(4,6),16);
+      return `rgba(${r},${g},${b},${Math.max(0,Math.min(1,alpha))})`;
+    }
+
+    // pointer handling
+    function onPointerMove(e){
+      const rect = canvas.getBoundingClientRect();
+      const px = (e.clientX - rect.left);
+      const py = (e.clientY - rect.top);
+      pointer.x = Math.max(0, Math.min(width, px));
+      pointer.y = Math.max(0, Math.min(height, py));
+    }
+    function onPointerLeave(){ pointer.x = null; pointer.y = null; }
+    function onPointerDown(){ pointer.down = true; }
+    function onPointerUp(){ pointer.down = false; }
+
+    // wire events
+    canvas.addEventListener('pointermove', onPointerMove);
+    canvas.addEventListener('pointerleave', onPointerLeave);
+    canvas.addEventListener('pointerdown', onPointerDown);
+    window.addEventListener('pointerup', onPointerUp);
+
+    // resize observer for responsive canvas
+    const ro = new ResizeObserver(resize);
+    ro.observe(canvas.parentElement);
+
+    // init nodes and start
+    resize();
+    // initialize a few steps to settle
+    for (let i=0;i<6;i++) update(1);
+    if (CONFIG.speed !== 0) requestAnimationFrame(frame); else render();
+
+    // Expose a simple API for debugging from console
+    window._graphBg = { nodes, resize, config: CONFIG };
+
+    // --- utility: clamp and lerp defined earlier (redeclare to be safe) ---
+    function lerp(a,b,t){return a + (b-a)*t}
+
+  })();
   </script>
+
 </body>
 </html>
