@@ -143,15 +143,18 @@
       font-size:0.95rem;
       color: rgba(255,255,255,0.95);
     }
- .research-panel {
+
+    /* --- Responsive research panel styles (updated) --- */
+    .research-panel {
         display: flex;
         gap: 1.8rem;
         align-items: center;
         padding-top: 0.5rem;
+        flex-wrap: wrap; /* allow wrapping for small widths */
     }
     .animation-container {
-        flex: 1;
-        min-width: 300px;
+        flex: 1 1 320px; /* grow/shrink, base 320px */
+        min-width: 0; /* important to allow flex children to shrink on smaller screens */
         height: 250px;
         border-radius: 8px;
         overflow: hidden;
@@ -165,10 +168,11 @@
         height: 100%;
         top: 0;
         left: 0;
+        display: block;
     }
     .description-container {
-        flex: 1.5;
-        min-width: 300px;
+        flex: 1.5 1 300px; /* slightly wider by default */
+        min-width: 0; /* allow shrinking */
     }
     .description-container h3 {
         margin: 0 0 0.5rem 0;
@@ -182,11 +186,35 @@
         margin: 0;
         font-size: 0.95rem;
     }
+
     /* responsive tweaks */
+    @media (max-width:1024px){
+      .animation-container { height: 220px; }
+      .research-panel { gap: 1rem; }
+    }
+
     @media (max-width:720px){
       .nav-inner{ padding:0.6rem; }
       .nav-links{ display:flex; gap:.5rem; }
       .footer-inner{ flex-direction:column; align-items:flex-start; gap:.6rem; }
+
+      /* stack research panel vertically on narrow screens */
+      .research-panel {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .animation-container, .description-container {
+        width: 100%;
+        flex: none; /* disable flex growth when stacked */
+      }
+      .animation-container { height: 200px; }
+      .description-container { padding-top: 0.6rem; }
+    }
+
+    @media (max-width:420px) {
+      .animation-container { height: 160px; }
+      .hero-content h1 { font-size: 1.8rem; }
+      .hero-content p { font-size: 0.92rem; }
     }
 
     /* reduced motion fallback */
@@ -782,7 +810,7 @@
     animate();
   })();
   </script>
-
+  
   <script>
     (function() {
       const canvas = document.getElementById('lotteryCanvas');
