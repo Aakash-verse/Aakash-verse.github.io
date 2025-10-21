@@ -120,6 +120,47 @@
       color: var(--bg);
       font-weight:700;
     }
+    
+    /* --- New Styles for Research Panel --- */
+    .research-panel {
+        display: flex;
+        gap: 1.8rem;
+        align-items: center;
+        padding-top: 0.5rem;
+    }
+    .animation-container {
+        flex: 1;
+        min-width: 300px;
+        height: 250px;
+        border-radius: 8px;
+        overflow: hidden;
+        position: relative;
+        background-color: #0d1a26;
+        box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+    }
+    .animation-container canvas {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+    }
+    .description-container {
+        flex: 1.5;
+        min-width: 300px;
+    }
+    .description-container h3 {
+        margin: 0 0 0.5rem 0;
+        font-weight: 600;
+        font-size: 1.1rem;
+        color: #1f2937;
+    }
+    .description-container p {
+        color: #6b7280;
+        line-height: 1.6;
+        margin: 0;
+        font-size: 0.95rem;
+    }
 
     /* FOOTER: same color as header */
     footer.site-footer{
@@ -148,6 +189,11 @@
       .nav-inner{ padding:0.6rem; }
       .nav-links{ display:flex; gap:.5rem; }
       .footer-inner{ flex-direction:column; align-items:flex-start; gap:.6rem; }
+      .research-panel {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 1.2rem;
+      }
     }
 
     /* reduced motion fallback */
@@ -211,7 +257,7 @@
       <div style="display:flex;align-items:flex-start;gap:1rem;padding:0.8rem;border-radius:8px;margin-bottom:0.9rem;box-shadow:0 1px 0 rgba(0,0,0,0.03);">
         <!-- logo box -->
         <div style="flex:0 0 72px; display:flex;align-items:center;justify-content:center;">
-          <img src="inria.png" alt="Inria logo" style="width:64px;height:64px;object-fit:contain;border-radius:6px;box-shadow:0 1px 6px rgba(0,0,0,0.06);" />
+          <img src="https://placehold.co/64x64/00a8ff/ffffff?text=I" alt="Inria logo placeholder" style="width:64px;height:64px;object-fit:contain;border-radius:6px;box-shadow:0 1px 6px rgba(0,0,0,0.06);" />
         </div>
 
         <!-- details -->
@@ -234,7 +280,7 @@
       <div style="display:flex;align-items:flex-start;gap:1rem;padding:0.8rem;border-radius:8px;margin-bottom:0.9rem;box-shadow:0 1px 0 rgba(0,0,0,0.03);">
         <!-- logo box -->
         <div style="flex:0 0 72px; display:flex;align-items:center;justify-content:center;">
-          <img src="iiserk.png" alt="IISER Kolkata logo" style="width:64px;height:64px;object-fit:contain;border-radius:6px;box-shadow:0 1px 6px rgba(0,0,0,0.06);" />
+          <img src="https://placehold.co/64x64/ffffff/111111?text=IISER" alt="IISER Kolkata logo placeholder" style="width:64px;height:64px;object-fit:contain;border-radius:6px;box-shadow:0 1px 6px rgba(0,0,0,0.06);" />
         </div>
 
         <!-- details -->
@@ -256,7 +302,18 @@
 
     <section id="research" aria-labelledby="researchHeading">
       <h2 id="researchHeading">Research</h2>
-      <!-- content intentionally left empty -->
+      <!-- New Research Panel -->
+      <div class="research-panel">
+          <div class="animation-container">
+              <canvas id="hopfieldCanvas" aria-hidden="true"></canvas>
+          </div>
+          <div class="description-container">
+              <h3>Directed Hopfield Networks</h3>
+              <p>
+                Directed Hopfield networks are a variation of classic Hopfield networks where connections between neurons are not symmetric. This asymmetry prevents them from having a simple energy function, meaning they don't always settle into stable states. Instead, their dynamics can be much richer, producing cycles or even chaotic behavior.
+              </p>
+          </div>
+      </div>
     </section>
   </main>
 
@@ -266,47 +323,38 @@
       <div class="footer-contact">
         <!-- contact info left intentionally empty -->
       </div>
-      <div aria-hidden="true" style="opacity:0.9;">&copy; <!-- year left empty --></div>
+      <div aria-hidden="true" style="opacity:0.9;">&copy; <span id="footer-year"></span></div>
     </div>
   </footer>
 
-  <!-- Original canvas script left unchanged (except kept in this file) -->
+  <!-- Original canvas script for header -->
   <script>
   // Animated node-line graph background — electric blue theme
-  // Features:
-  // - moving nodes with spring-to-origin for stability
-  // - lines drawn between nearby nodes with alpha scaled by distance
-  // - nodes react to pointer by repelling and lighting up
-  // - respects devicePixelRatio and prefers-reduced-motion
-
   (function(){
     const canvas = document.getElementById('graphCanvas');
     const ctx = canvas.getContext('2d', { alpha: true });
     let DPR = Math.max(1, window.devicePixelRatio || 1);
 
-    // Config — tweak these values to change behavior
     const CONFIG = {
-      nodeCountDensity: 0.00025,   // much sparser (fewer nodes)   // nodes per px^2 (scaled by area)
-      nodeRadius: 2.2,            // base radius in CSS pixels
-      maxLinkDistance: 140,       // max px distance to draw link
+      nodeCountDensity: 0.00025,
+      nodeRadius: 2.2,
+      maxLinkDistance: 140,
       lineWidth: 0.9,
-      speed: 0.5,                 // global animation speed multiplier
-      repulseRadius: 120,         // pointer repulsion radius
-      pointerForce: 0.75,         // how strongly pointer repels nodes
-      originAttraction: 0.02,     // spring strength to original position
-      friction: 0.92,             // velocity damping
-      color1: '#ffffff',         // nodes/lines white         // electric bright
-      color2: '#ffffff',          // deeper
-      /* very small drift parameters (keeps subtle wandering even without pointer) */
+      speed: 0.5,
+      repulseRadius: 120,
+      pointerForce: 0.75,
+      originAttraction: 0.02,
+      friction: 0.92,
+      color1: '#ffffff',
+      color2: '#ffffff',
       driftAmplitude: 0.04,
       driftApply: 0.18,
       driftSpeed: 0.0006
     };
 
-    // Respect reduced motion preference
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReduced){
-      CONFIG.speed = 0; // freeze animation
+      CONFIG.speed = 0;
     }
 
     let width = 0, height = 0, nodes = [];
@@ -321,8 +369,6 @@
       canvas.style.width = width + 'px';
       canvas.style.height = height + 'px';
       ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
-
-      // create or prune nodes based on area
       const area = width * height;
       const desired = Math.max(12, Math.round(area * CONFIG.nodeCountDensity));
       if (nodes.length < desired) {
@@ -331,23 +377,19 @@
       } else if (nodes.length > desired) {
         nodes.length = desired;
       }
-
-      // Reassign origin positions to fit new size
       nodes.forEach(n => {
         n.ox = n.oxNormalized * width;
         n.oy = n.oyNormalized * height;
-        // if outside new bounds, clamp
         n.x = Math.max(0, Math.min(width, n.x));
         n.y = Math.max(0, Math.min(height, n.y));
       });
     }
 
     function createNode(){
-      // spread origin positions in a subtle grid with jitter
       const ox = Math.random();
       const oy = Math.random();
-      const node = {
-        oxNormalized: ox, // in [0,1] to allow resize recompute
+      return {
+        oxNormalized: ox,
         oyNormalized: oy,
         ox: ox * width,
         oy: oy * height,
@@ -357,21 +399,14 @@
         vy: (Math.random()-0.5) * 0.6,
         r: CONFIG.nodeRadius,
         pulse: Math.random()*Math.PI*2,
-        hueShift: Math.random()*40 - 20 // slight variance
+        hueShift: Math.random()*40 - 20
       };
-      return node;
     }
 
-    // Utility: linear interpolation
-    function lerp(a,b,t){return a+(b-a)*t}
-
-    // drift internal angle
     let driftAngle = Math.random() * Math.PI * 2;
-
-    // Animation loop
     let last = performance.now();
     function frame(now){
-      const dt = Math.min(40, now - last) / 16.666; // ~60fps baseline
+      const dt = Math.min(40, now - last) / 16.666;
       last = now;
       update(dt * CONFIG.speed);
       render();
@@ -379,35 +414,24 @@
     }
 
     function update(elapsed){
-      // elapsed may be 0 if reduced motion
-      // update global drift angle slowly
       driftAngle += CONFIG.driftSpeed * elapsed;
       const gdX = Math.cos(driftAngle) * CONFIG.driftAmplitude;
       const gdY = Math.sin(driftAngle) * CONFIG.driftAmplitude;
-
       nodes.forEach(node => {
-        // apply the global gentle drift (very small nudge even without pointer)
         node.vx += gdX * CONFIG.driftApply * elapsed;
         node.vy += gdY * CONFIG.driftApply * elapsed;
-
-        // attraction to origin (spring)
         const dx0 = node.ox - node.x;
         const dy0 = node.oy - node.y;
         node.vx += dx0 * CONFIG.originAttraction * elapsed;
         node.vy += dy0 * CONFIG.originAttraction * elapsed;
-
-        // slight procedural motion (per-node subtle wandering)
         node.pulse += 0.01 * elapsed;
         node.vx += Math.cos(node.pulse) * 0.003 * elapsed;
         node.vy += Math.sin(node.pulse) * 0.003 * elapsed;
-
-        // pointer interaction: repulse if within radius
         if (pointer.x !== null){
           const dx = node.x - pointer.x;
           const dy = node.y - pointer.y;
           const dist = Math.hypot(dx,dy);
           if (dist < CONFIG.repulseRadius){
-            // normalized force away from pointer
             const force = (1 - (dist / CONFIG.repulseRadius)) * CONFIG.pointerForce * (pointer.down ? 2.2 : 1.0);
             const nx = dx/dist || (Math.random()-0.5);
             const ny = dy/dist || (Math.random()-0.5);
@@ -415,16 +439,10 @@
             node.vy += ny * force * elapsed * 1.2;
           }
         }
-
-        // velocity damping
         node.vx *= CONFIG.friction;
         node.vy *= CONFIG.friction;
-
-        // step
         node.x += node.vx * elapsed;
         node.y += node.vy * elapsed;
-
-        // small bounds clamp with wrap-around-like pull
         if (node.x < -20) node.x = width + 20;
         if (node.x > width + 20) node.x = -20;
         if (node.y < -20) node.y = height + 20;
@@ -434,8 +452,6 @@
 
     function render(){
       ctx.clearRect(0,0,width,height);
-
-      // draw links
       ctx.lineWidth = CONFIG.lineWidth;
       ctx.lineCap = 'round';
       for (let i=0;i<nodes.length;i++){
@@ -447,24 +463,17 @@
           const d2 = dx*dx + dy*dy;
           if (d2 > CONFIG.maxLinkDistance * CONFIG.maxLinkDistance) continue;
           const d = Math.sqrt(d2);
-          const t = 1 - (d / CONFIG.maxLinkDistance); // 0..1 (closer => stronger)
-
-          // color gradient based on midpoint + pointer proximity
+          const t = 1 - (d / CONFIG.maxLinkDistance);
           const mx = (a.x + b.x) / 2;
           const my = (a.y + b.y) / 2;
-
-          // alpha shaped by distance and by proximity to pointer (highlight)
           let alpha = Math.pow(t, 1.1) * 0.85;
           if (pointer.x !== null){
             const pd = Math.hypot(mx - pointer.x, my - pointer.y);
             if (pd < CONFIG.repulseRadius) alpha = Math.max(alpha, 0.9 * (1 - pd / CONFIG.repulseRadius));
           }
-
-          // gradient stroke
           const grad = ctx.createLinearGradient(a.x, a.y, b.x, b.y);
           grad.addColorStop(0, shadeColor(CONFIG.color1, a.hueShift, alpha));
           grad.addColorStop(1, shadeColor(CONFIG.color2, b.hueShift, alpha));
-
           ctx.strokeStyle = grad;
           ctx.beginPath();
           ctx.moveTo(a.x, a.y);
@@ -472,33 +481,23 @@
           ctx.stroke();
         }
       }
-
-      // draw nodes
       for (let i=0;i<nodes.length;i++){
         const n = nodes[i];
-        // node highlight when pointer near
         let alpha = 0.85;
         if (pointer.x !== null){
           const pd = Math.hypot(n.x - pointer.x, n.y - pointer.y);
-          if (pd < CONFIG.repulseRadius) alpha = lerp(1, 0.6, pd / CONFIG.repulseRadius);
+          if (pd < CONFIG.repulseRadius) alpha = (a,b,t) => a + (b-a)*t (1, 0.6, pd / CONFIG.repulseRadius);
         }
-
-        // subtle pulsing radius
         const pulse = 0.6 + Math.sin(n.pulse*1.6) * 0.3;
         const r = Math.max(0.8, n.r * pulse);
-
-        // radial gradient fill for glow
         const g = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, Math.max(8, r*6));
         g.addColorStop(0, shadeColor(CONFIG.color1, n.hueShift, alpha * 0.95));
         g.addColorStop(0.6, shadeColor(CONFIG.color2, n.hueShift, alpha * 0.25));
         g.addColorStop(1, 'rgba(0,0,0,0)');
-
         ctx.fillStyle = g;
         ctx.beginPath();
         ctx.arc(n.x, n.y, Math.max(1.4, r*2.6), 0, Math.PI*2);
         ctx.fill();
-
-        // core dot
         ctx.fillStyle = shadeColor('#ffffff', 0, alpha);
         ctx.beginPath();
         ctx.arc(n.x, n.y, Math.max(0.8, r*0.45), 0, Math.PI*2);
@@ -506,9 +505,7 @@
       }
     }
 
-    // small helper to apply hue shift + alpha into rgba string
     function shadeColor(hex, hueShift=0, alpha=1){
-      // simple hex -> rgb
       const c = hex.replace('#','');
       const r = parseInt(c.substring(0,2),16);
       const g = parseInt(c.substring(2,4),16);
@@ -516,7 +513,6 @@
       return `rgba(${r},${g},${b},${Math.max(0,Math.min(1,alpha))})`;
     }
 
-    // pointer handling
     function onPointerMove(e){
       const rect = canvas.getBoundingClientRect();
       const px = (e.clientX - rect.left);
@@ -527,30 +523,149 @@
     function onPointerLeave(){ pointer.x = null; pointer.y = null; }
     function onPointerDown(){ pointer.down = true; }
     function onPointerUp(){ pointer.down = false; }
-
-    // wire events
     canvas.addEventListener('pointermove', onPointerMove);
     canvas.addEventListener('pointerleave', onPointerLeave);
     canvas.addEventListener('pointerdown', onPointerDown);
     window.addEventListener('pointerup', onPointerUp);
-
-    // resize observer for responsive canvas
     const ro = new ResizeObserver(resize);
     ro.observe(canvas.parentElement);
-
-    // init nodes and start
     resize();
-    // initialize a few steps to settle
     for (let i=0;i<6;i++) update(1);
     if (CONFIG.speed !== 0) requestAnimationFrame(frame); else render();
-
-    // Expose a simple API for debugging from console
-    window._graphBg = { nodes, resize, config: CONFIG };
-
-    // --- utility: clamp and lerp defined earlier (redeclare to be safe) ---
-    function lerp(a,b,t){return a + (b-a)*t}
-
   })();
+  </script>
+
+  <!-- New script for the Hopfield Network Animation -->
+  <script>
+  (function() {
+    const canvas = document.getElementById('hopfieldCanvas');
+    if (!canvas) return; // Don't run if the canvas isn't on the page
+    const ctx = canvas.getContext('2d');
+
+    let nodes = [];
+    let edges = [];
+    const numNodes = 30;
+    const edgeProbability = 0.1; 
+
+    const colors = {
+        background: '#0d1a26',
+        edge: 'rgba(128, 128, 128, 0.3)',
+        nodeGrey: '#4A5568',
+        nodeWhite: '#FFFFFF'
+    };
+    const nodeRadius = 4;
+    const glowColor = 'rgba(255, 255, 255, 0.7)';
+    const glowBlur = 12;
+
+    function resizeCanvas() {
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width;
+        canvas.height = rect.height;
+    }
+
+    function init() {
+        nodes = [];
+        edges = [];
+
+        for (let i = 0; i < numNodes; i++) {
+            nodes.push({
+                id: i,
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vx: (Math.random() - 0.5) * 0.3,
+                vy: (Math.random() - 0.5) * 0.3,
+                radius: nodeRadius,
+                isWhite: Math.random() > 0.5,
+                flipTimer: Math.random() * 200 + 100,
+            });
+        }
+
+        for (let i = 0; i < numNodes; i++) {
+            for (let j = i + 1; j < numNodes; j++) {
+                if (Math.random() < edgeProbability) {
+                    edges.push({
+                        source: nodes[i],
+                        target: nodes[j]
+                    });
+                }
+            }
+        }
+    }
+
+    function drawEdges() {
+        ctx.strokeStyle = colors.edge;
+        ctx.lineWidth = 1;
+        edges.forEach(edge => {
+            ctx.beginPath();
+            ctx.moveTo(edge.source.x, edge.source.y);
+            ctx.lineTo(edge.target.x, edge.target.y);
+            ctx.stroke();
+        });
+    }
+
+    function drawNodes() {
+        nodes.forEach(node => {
+            ctx.beginPath();
+            if (node.isWhite) {
+                ctx.fillStyle = colors.nodeWhite;
+                ctx.shadowColor = glowColor;
+                ctx.shadowBlur = glowBlur;
+            } else {
+                ctx.fillStyle = colors.nodeGrey;
+                ctx.shadowColor = 'transparent';
+                ctx.shadowBlur = 0;
+            }
+            ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
+            ctx.fill();
+        });
+        ctx.shadowColor = 'transparent';
+        ctx.shadowBlur = 0;
+    }
+
+    function update() {
+        nodes.forEach(node => {
+            node.x += node.vx;
+            node.y += node.vy;
+
+            if (node.x - node.radius < 0 || node.x + node.radius > canvas.width) {
+                node.vx *= -1;
+            }
+            if (node.y - node.radius < 0 || node.y + node.radius > canvas.height) {
+                node.vy *= -1;
+            }
+            
+            node.flipTimer--;
+            if (node.flipTimer <= 0) {
+                node.isWhite = !node.isWhite;
+                node.flipTimer = Math.random() * 300 + 150;
+            }
+        });
+    }
+    
+    function animate() {
+        ctx.fillStyle = colors.background;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        update();
+        drawEdges();
+        drawNodes();
+        requestAnimationFrame(animate);
+    }
+
+    const ro = new ResizeObserver(() => {
+        resizeCanvas();
+        init();
+    });
+    ro.observe(canvas);
+
+    resizeCanvas();
+    init();
+    animate();
+  })();
+  </script>
+  
+  <!-- Script to set footer year -->
+  <script>
+    document.getElementById('footer-year').textContent = new Date().getFullYear();
   </script>
 
 </body>
