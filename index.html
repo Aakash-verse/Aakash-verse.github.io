@@ -8,15 +8,63 @@
     :root{
       --electric-1: #00d4ff; /* bright electric blue */
       --electric-2: #00a8ff; /* deeper tone */
-      --bg: #00a8ff; /* electric blue background for header */
+      --bg: #00a8ff; /* electric blue background for header/footer */
       --glass: rgba(255,255,255,0.02);
+      --muted: rgba(0,0,0,0.6);
+      --max-width: 1100px;
     }
+
+    /* page baseline */
     html,body{height:100%;margin:0;font-family:Inter,system-ui,Arial,sans-serif}
+    body { background: #ffffff; color: #111; }
 
-    /* make everything outside the header white */
-    body { background: #ffffff; }
+    /* NAVBAR */
+    .nav {
+      width:100%;
+      background: #ffffff; /* keep page white, links use theme color */
+      box-shadow: 0 1px 0 rgba(0,0,0,0.04);
+      position:sticky;
+      top:0;
+      z-index:40;
+      backdrop-filter: blur(6px);
+    }
+    .nav-inner{
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:1rem;
+      padding:0.55rem 1rem;
+      box-sizing:border-box;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:.6rem;
+      font-weight:700;
+      color: var(--bg);
+      text-decoration:none;
+    }
+    .nav-links{
+      display:flex;
+      gap:.75rem;
+      align-items:center;
+    }
+    .nav-links a{
+      color: var(--muted);
+      text-decoration:none;
+      font-size:0.95rem;
+      padding:0.35rem 0.5rem;
+      border-radius:6px;
+    }
+    .nav-links a:hover{
+      color: var(--bg);
+      background: rgba(0,168,255,0.06);
+      text-decoration:none;
+    }
 
-    /* ensure the header keeps its electric-blue background */
+    /* header that contains the canvas background — left unchanged except not overriding nav */
     .hero-wrap{
       position:relative;
       min-height:240px;
@@ -27,7 +75,7 @@
       overflow:hidden;
       padding:2.25rem 1rem;
       box-sizing:border-box;
-      background: var(--bg); /* <-- keep header background as it was */
+      background: var(--bg); /* keep header background as it was */
     }
 
     /* The canvas sits behind the content */
@@ -49,17 +97,88 @@
     /* subtle vignette over canvas for contrast */
     .vignette{ position:absolute; inset:0; pointer-events:none; z-index:1; background:radial-gradient(ellipse at center, rgba(0,0,0,0) 30%, rgba(0,0,0,0.18) 100%); }
 
-    /* fallbacks & reduced motion */
-    @media (prefers-reduced-motion: reduce){
-      canvas.graph-canvas{ animation: none !important }
+    /* MAIN content sections */
+    main{
+      max-width: var(--max-width);
+      margin: 2rem auto;
+      padding: 0 1rem;
+      box-sizing: border-box;
     }
 
-    /* small screens */
-    @media (max-width:480px){ .hero-content h1{font-size:1.4rem} }
+    section {
+      background: #fff;
+      border-radius: 10px;
+      padding: 1.2rem;
+      margin-bottom: 1rem;
+      min-height: 120px;
+      box-shadow: 0 1px 0 rgba(0,0,0,0.03);
+      display:block;
+    }
+    section h2{
+      margin:0 0 .6rem 0;
+      font-size:1.05rem;
+      color: var(--bg);
+      font-weight:700;
+    }
+
+    /* FOOTER: same color as header */
+    footer.site-footer{
+      background: var(--bg);
+      color: white;
+      padding: 1.25rem;
+      margin-top: 2rem;
+    }
+    .footer-inner{
+      max-width: var(--max-width);
+      margin:0 auto;
+      padding: 0 1rem;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:1rem;
+      box-sizing:border-box;
+    }
+    .footer-contact{
+      font-size:0.95rem;
+      color: rgba(255,255,255,0.95);
+    }
+
+    /* responsive tweaks */
+    @media (max-width:720px){
+      .nav-inner{ padding:0.6rem; }
+      .nav-links{ display:flex; gap:.5rem; }
+      .footer-inner{ flex-direction:column; align-items:flex-start; gap:.6rem; }
+    }
+
+    /* reduced motion fallback */
+    @media (prefers-reduced-motion: reduce){
+      * { transition: none !important; animation: none !important; }
+    }
+
   </style>
 </head>
 <body>
 
+  <!-- NAVBAR (added) -->
+  <nav class="nav" role="navigation" aria-label="Primary">
+    <div class="nav-inner">
+      <a class="brand" href="#home" aria-label="Home">
+        <!-- small brand mark -->
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" />
+        </svg>
+        Aakash Kumar
+      </a>
+
+      <div class="nav-links" role="menu" aria-hidden="false">
+        <a href="#about" role="menuitem">About</a>
+        <a href="#education" role="menuitem">Education</a>
+        <a href="#research" role="menuitem">Research</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HEADER — kept intact -->
   <header class="hero-wrap" role="banner" aria-label="Header with animated graph background">
     <canvas class="graph-canvas" id="graphCanvas" aria-hidden="true"></canvas>
 
@@ -71,6 +190,35 @@
     </div>
   </header>
 
+  <!-- MAIN content: stacked sections -->
+  <main role="main" aria-labelledby="mainHeading">
+    <section id="about" aria-labelledby="aboutHeading">
+      <h2 id="aboutHeading">About</h2>
+      <!-- content intentionally left empty -->
+    </section>
+
+    <section id="education" aria-labelledby="educationHeading">
+      <h2 id="educationHeading">Education</h2>
+      <!-- content intentionally left empty -->
+    </section>
+
+    <section id="research" aria-labelledby="researchHeading">
+      <h2 id="researchHeading">Research</h2>
+      <!-- content intentionally left empty -->
+    </section>
+  </main>
+
+  <!-- FOOTER (same color as header) -->
+  <footer class="site-footer" role="contentinfo" aria-label="Footer with contact">
+    <div class="footer-inner">
+      <div class="footer-contact">
+        <!-- contact info left intentionally empty -->
+      </div>
+      <div aria-hidden="true" style="opacity:0.9;">&copy; <!-- year left empty --></div>
+    </div>
+  </footer>
+
+  <!-- Original canvas script left unchanged (except kept in this file) -->
   <script>
   // Animated node-line graph background — electric blue theme
   // Features:
@@ -96,11 +244,11 @@
       originAttraction: 0.02,     // spring strength to original position
       friction: 0.92,             // velocity damping
       color1: '#ffffff',         // nodes/lines white         // electric bright
-      color2: '#ffffff',         // deeper
-      /* very small drift parameters */
-      driftAmplitude: 0.04,      // tiny positional drift amplitude (CSS px units per tick base)
-      driftApply: 0.18,          // how strongly the drift nudges nodes (kept small)
-      driftSpeed: 0.0006         // how slowly the drift changes direction
+      color2: '#ffffff',          // deeper
+      /* very small drift parameters (keeps subtle wandering even without pointer) */
+      driftAmplitude: 0.04,
+      driftApply: 0.18,
+      driftSpeed: 0.0006
     };
 
     // Respect reduced motion preference
