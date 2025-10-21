@@ -8,7 +8,7 @@
     :root{
       --electric-1: #00d4ff; /* bright electric blue */
       --electric-2: #00a8ff; /* deeper tone */
-      --bg: #0b0f14;
+      --bg: #00a8ff; /* electric blue background for header */
       --glass: rgba(255,255,255,0.02);
     }
     html,body{height:100%;margin:0;background:var(--bg);font-family:Inter,system-ui,Arial,sans-serif}
@@ -82,7 +82,7 @@
 
     // Config — tweak these values to change behavior
     const CONFIG = {
-      nodeCountDensity: 0.0009,   // nodes per px^2 (scaled by area)
+      nodeCountDensity: 0.00025,   // much sparser (fewer nodes)   // nodes per px^2 (scaled by area)
       nodeRadius: 2.2,            // base radius in CSS pixels
       maxLinkDistance: 140,       // max px distance to draw link
       lineWidth: 0.9,
@@ -91,8 +91,8 @@
       pointerForce: 0.75,         // how strongly pointer repels nodes
       originAttraction: 0.02,     // spring strength to original position
       friction: 0.92,             // velocity damping
-      color1: '#00d4ff',         // electric bright
-      color2: '#00a8ff'          // deeper
+      color1: '#ffffff',         // nodes/lines white         // electric bright
+      color2: '#ffffff'          // deeper
     };
 
     // Respect reduced motion preference
