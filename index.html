@@ -11,9 +11,12 @@
       --bg: #00a8ff; /* electric blue background for header */
       --glass: rgba(255,255,255,0.02);
     }
-    html,body{height:100%;margin:0;background:var(--bg);font-family:Inter,system-ui,Arial,sans-serif}
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,Arial,sans-serif}
 
-    /* header that contains the canvas background */
+    /* make everything outside the header white */
+    body { background: #ffffff; }
+
+    /* ensure the header keeps its electric-blue background */
     .hero-wrap{
       position:relative;
       min-height:240px;
@@ -24,6 +27,7 @@
       overflow:hidden;
       padding:2.25rem 1rem;
       box-sizing:border-box;
+      background: var(--bg); /* <-- keep header background as it was */
     }
 
     /* The canvas sits behind the content */
@@ -92,7 +96,11 @@
       originAttraction: 0.02,     // spring strength to original position
       friction: 0.92,             // velocity damping
       color1: '#ffffff',         // nodes/lines white         // electric bright
-      color2: '#ffffff'          // deeper
+      color2: '#ffffff',         // deeper
+      /* very small drift parameters */
+      driftAmplitude: 0.04,      // tiny positional drift amplitude (CSS px units per tick base)
+      driftApply: 0.18,          // how strongly the drift nudges nodes (kept small)
+      driftSpeed: 0.0006         // how slowly the drift changes direction
     };
 
     // Respect reduced motion preference
@@ -157,6 +165,9 @@
     // Utility: linear interpolation
     function lerp(a,b,t){return a+(b-a)*t}
 
+    // drift internal angle
+    let driftAngle = Math.random() * Math.PI * 2;
+
     // Animation loop
     let last = performance.now();
     function frame(now){
@@ -169,7 +180,16 @@
 
     function update(elapsed){
       // elapsed may be 0 if reduced motion
+      // update global drift angle slowly
+      driftAngle += CONFIG.driftSpeed * elapsed;
+      const gdX = Math.cos(driftAngle) * CONFIG.driftAmplitude;
+      const gdY = Math.sin(driftAngle) * CONFIG.driftAmplitude;
+
       nodes.forEach(node => {
+        // apply the global gentle drift (very small nudge even without pointer)
+        node.vx += gdX * CONFIG.driftApply * elapsed;
+        node.vy += gdY * CONFIG.driftApply * elapsed;
+
         // attraction to origin (spring)
         const dx0 = node.ox - node.x;
         const dy0 = node.oy - node.y;
