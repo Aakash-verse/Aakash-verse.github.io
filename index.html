@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Aakash Kumar — Header Graph</title>
+  <title>Aakash Kumar</title>
   <style>
     :root{
       --electric-1: #00d4ff; /* bright electric blue */
@@ -293,8 +293,6 @@
 
     </section>
 
-      </section>
-
     <section id="research" aria-labelledby="researchHeading">
       <h2 id="researchHeading">Research</h2>
       <!-- New Research Panel -->
@@ -306,6 +304,18 @@
               <h3>Directed Hopfield Networks</h3>
               <p>
                 Directed Hopfield networks are a variation of classic Hopfield networks where connections between neurons are not symmetric. This asymmetry prevents them from having a simple energy function, meaning they don't always settle into stable states. Instead, their dynamics can be much richer, producing cycles or even chaotic behavior.
+              </p>
+          </div>
+      </div>
+      <!-- Additional Research Panel -->
+      <div class="research-panel">
+          <div class="animation-container">
+              <canvas id="lotteryCanvas" aria-hidden="true"></canvas>
+          </div>
+          <div class="description-container">
+              <h3>Strong Lottery Ticket Hypothesis</h3>
+              <p>
+                The Strong Lottery Ticket Hypothesis suggests that within a randomly initialized neural network, there exist subnetworks—referred to as "winning tickets"—that can achieve performance comparable to the full network when trained from the same initialization. This implies that effective network pruning can uncover sparse architectures that maintain high accuracy without requiring retraining from scratch.
               </p>
           </div>
       </div>
@@ -730,6 +740,105 @@
     init();
     animate();
   })();
+  </script>
+
+  <script>
+    (function() {
+      const canvas = document.getElementById('lotteryCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+
+      let nodeRadius;
+      let verticalSpacing;
+      let nodes = [];
+      let originalEdges = [];
+      let edges = [];
+
+      function init() {
+        nodeRadius = canvas.width * 0.025;
+        const layers = [
+          { nodes: 3, x: canvas.width * 0.2 },
+          { nodes: 4, x: canvas.width * 0.45 },
+          { nodes: 2, x: canvas.width * 0.7 }
+        ];
+        let maxNodes = Math.max(...layers.map(l => l.nodes));
+        verticalSpacing = canvas.height / (maxNodes + 1);
+
+        nodes = [];
+        layers.forEach((layer) => {
+          const layerNodes = [];
+          const startY = (canvas.height - (layer.nodes - 1) * verticalSpacing) / 2;
+          for (let i = 0; i < layer.nodes; i++) {
+            const y = startY + i * verticalSpacing;
+            layerNodes.push({ x: layer.x, y });
+          }
+          nodes.push(layerNodes);
+        });
+
+        originalEdges = [];
+        for (let l = 0; l < layers.length - 1; l++) {
+          nodes[l].forEach(fromNode => {
+            nodes[l + 1].forEach(toNode => {
+              originalEdges.push({ from: fromNode, to: toNode });
+            });
+          });
+        }
+        edges = [...originalEdges];
+      }
+
+      function drawNodes() {
+        nodes.flat().forEach(node => {
+          ctx.beginPath();
+          ctx.arc(node.x, node.y, nodeRadius, 0, 2 * Math.PI);
+          ctx.fillStyle = '#FFFFFF';
+          ctx.fill();
+          ctx.strokeStyle = '#CCCCCC';
+          ctx.stroke();
+        });
+      }
+
+      function drawEdges() {
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+        ctx.lineWidth = 1;
+        edges.forEach(edge => {
+          ctx.beginPath();
+          ctx.moveTo(edge.from.x + nodeRadius, edge.from.y);
+          ctx.lineTo(edge.to.x - nodeRadius, edge.to.y);
+          ctx.stroke();
+        });
+      }
+
+      function redraw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawEdges();
+        drawNodes();
+      }
+
+      const removalInterval = setInterval(() => {
+        if (edges.length === 0) {
+          edges = [...originalEdges];
+        }
+        const randomIndex = Math.floor(Math.random() * edges.length);
+        edges.splice(randomIndex, 1);
+        redraw();
+      }, 500);
+
+      const ro = new ResizeObserver(() => {
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width;
+        canvas.height = rect.height;
+        init();
+        redraw();
+      });
+      ro.observe(canvas);
+
+      // Initial setup
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width;
+      canvas.height = rect.height;
+      init();
+      redraw();
+    })();
   </script>
 
 </body>
