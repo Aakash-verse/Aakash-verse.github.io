@@ -298,31 +298,87 @@
     </section>
 
     <section id="research" aria-labelledby="researchHeading">
-      <h2 id="researchHeading">Research</h2>
-      <!-- New Research Panel -->
-      <div class="research-panel">
-          <div class="animation-container">
-              <canvas id="hopfieldCanvas" aria-hidden="true"></canvas>
-          </div>
-          <div class="description-container">
-              <h3>Directed Hopfield Networks</h3>
-              <p>
-                I am working on the theory of Directed Hopfield networks (DHNs). DHNs are a variation of classic Hopfield networks where connections between neurons are not symmetric. This asymmetry prevents them from having a simple energy function, meaning rarely settle into stable states. Instead, their dynamics can be much richer, producing cycles or even chaotic behavior. I am interested in the capacity of DHNs to store Limit cycle attractors and their robustness.
-              </p>
-          </div>
-      </div>
-      <!-- Additional Research Panel -->
-      <div class="research-panel">
-          <div class="animation-container">
-              <canvas id="lotteryCanvas" aria-hidden="true"></canvas>
-          </div>
-          <div class="description-container">
-              <h3>Strong Lottery Ticket Hypothesis</h3>
-              <p>
-                I have also been working on the Strong Lottery Ticket Hypothesis, which states that within a randomly initialized neural network, there exist subnetworks that can achieve performance comparable to a trained network without any training. Specifically, I have been intrested in the interplay between weight quantization and pruning in context of the Strong Lottery Ticket Hypothesis. See my <a href="#publications" role="menuitem">Publications</a> for more details.
-          </div>
-      </div>
-    </section>
+  <h2 id="researchHeading">Research</h2>
+
+  <!-- New Research Panel -->
+  <div class="research-panel">
+    <div class="animation-container">
+      <canvas id="hopfieldCanvas" aria-hidden="true"></canvas>
+    </div>
+    <div class="description-container">
+      <h3>Directed Hopfield Networks</h3>
+      <p>
+        I am working on the theory of Directed Hopfield networks (DHNs). DHNs are a variation of classic Hopfield networks where connections between neurons are not symmetric. This asymmetry prevents them from having a simple energy function, meaning rarely settle into stable states. Instead, their dynamics can be much richer, producing cycles or even chaotic behavior. I am interested in the capacity of DHNs to store Limit cycle attractors and their robustness.
+      </p>
+    </div>
+  </div>
+
+  <!-- Additional Research Panel -->
+  <div class="research-panel">
+    <div class="animation-container">
+      <canvas id="lotteryCanvas" aria-hidden="true"></canvas>
+    </div>
+    <div class="description-container">
+      <h3>Strong Lottery Ticket Hypothesis</h3>
+      <p>
+        I have also been working on the Strong Lottery Ticket Hypothesis, which states that within a randomly initialized neural network, there exist subnetworks that can achieve performance comparable to a trained network without any training. Specifically, I have been intrested in the interplay between weight quantization and pruning in context of the Strong Lottery Ticket Hypothesis. See my
+        <a href="#publications" role="menuitem">Publications</a> for more details.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  #research {
+    padding: 1rem;
+  }
+
+  .research-panel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+  }
+
+  .animation-container {
+    flex: 1 1 400px;
+    display: flex;
+    justify-content: center;
+  }
+
+  canvas {
+    width: 100%;
+    height: auto;
+    max-width: 500px;
+  }
+
+  .description-container {
+    flex: 1 1 400px;
+    max-width: 600px;
+  }
+
+  .description-container h3 {
+    margin-top: 0;
+  }
+
+  /* Responsive behavior */
+  @media (max-width: 768px) {
+    .research-panel {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .description-container {
+      max-width: 100%;
+    }
+
+    canvas {
+      max-width: 100%;
+    }
+  }
+</style>
 
     <section id="publications" aria-labelledby="publicationsHeading">
       <h2 id="publicationsHeading">Publications</h2>
