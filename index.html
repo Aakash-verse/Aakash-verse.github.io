@@ -3,285 +3,403 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Aakash Kumar — Dark Mode</title>
+  <title>Aakash Kumar</title>
   <style>
-    :root {
-      --electric-1: #00b4ff;
-      --electric-2: #0088ff;
-      --bg: #0d1117;
-      --glass: rgba(255, 255, 255, 0.05);
-      --muted: #8b949e;
+    :root{
+      --electric-1: #00d4ff;
+      --electric-2: #00a8ff;
+      --bg: #00a8ff;
+      --glass: rgba(255,255,255,0.02);
+      --muted: rgba(0,0,0,0.6);
       --max-width: 1100px;
       --content-gap: 1rem;
     }
 
-    html, body {
-      height: 100%;
-      margin: 0;
-      font-family: Inter, system-ui, Arial, sans-serif;
-    }
-
-    body {
-      background: var(--bg);
-      color: #e6edf3;
-      -webkit-font-smoothing: antialiased;
-    }
+    /* baseline */
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,Arial,sans-serif}
+    body { background: #ffffff; color: #111; -webkit-font-smoothing:antialiased; }
 
     /* NAVBAR */
     .nav {
-      width: 100%;
-      background: rgba(22, 27, 34, 0.85);
-      box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06);
-      position: sticky;
-      top: 0;
-      z-index: 60;
-      backdrop-filter: blur(8px);
+      width:100%;
+      background: #ffffff;
+      box-shadow: 0 1px 0 rgba(0,0,0,0.04);
+      position:sticky;
+      top:0;
+      z-index:60;
+      backdrop-filter: blur(6px);
     }
-    .nav-inner {
+    .nav-inner{
       max-width: var(--max-width);
       margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      padding: 0.55rem 1rem;
-      box-sizing: border-box;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:1rem;
+      padding:0.55rem 1rem;
+      box-sizing:border-box;
     }
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: .6rem;
-      font-weight: 700;
-      color: var(--electric-1);
-      text-decoration: none;
-    }
-    .nav-links {
-      display: flex;
-      gap: .75rem;
-      align-items: center;
-    }
-    .nav-links a {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 0.95rem;
-      padding: 0.35rem 0.5rem;
-      border-radius: 6px;
-      transition: 0.2s;
-    }
-    .nav-links a:hover {
-      color: var(--electric-1);
-      background: rgba(0, 180, 255, 0.08);
-    }
+    .brand{display:flex;align-items:center;gap:.6rem;font-weight:700;color:var(--bg);text-decoration:none}
+    .nav-links{display:flex;gap:.75rem;align-items:center}
+    .nav-links a{color:var(--muted);text-decoration:none;font-size:0.95rem;padding:0.35rem 0.5rem;border-radius:6px}
+    .nav-links a:hover{color:var(--bg);background:rgba(0,168,255,0.06);text-decoration:none}
 
     /* Mobile toggle */
-    .nav-toggle {
-      display: none;
-      background: transparent;
-      border: 0;
-      padding: 6px;
-      border-radius: 6px;
-      cursor: pointer;
-      color: var(--muted);
-    }
-    .nav-toggle:focus {
-      outline: 2px solid rgba(0, 180, 255, 0.3);
-    }
+    .nav-toggle{display:none;background:transparent;border:0;padding:6px;border-radius:6px;cursor:pointer}
+    .nav-toggle:focus{outline:2px solid rgba(0,168,255,0.2)}
 
-    /* mobile menu */
-    .mobile-menu {
-      display: none;
-      position: absolute;
-      left: 0;
-      right: 0;
-      top: 100%;
-      background: #161b22;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
-      padding: 12px;
-      border-bottom-left-radius: 10px;
-      border-bottom-right-radius: 10px;
-    }
-    .mobile-menu a {
-      display: block;
-      padding: 10px 12px;
-      border-radius: 8px;
-      color: var(--muted);
-      text-decoration: none;
-    }
-    .mobile-menu a:hover {
-      background: rgba(0, 180, 255, 0.1);
-      color: var(--electric-1);
-    }
+    /* mobile panel (hidden by default) */
+    .mobile-menu{display:none;position:absolute;left:0;right:0;top:100%;background:#ffffff;box-shadow:0 10px 30px rgba(0,0,0,0.08);padding:12px;border-bottom-left-radius:10px;border-bottom-right-radius:10px}
+    .mobile-menu a{display:block;padding:10px 12px;border-radius:8px;color:var(--muted);text-decoration:none}
+    .mobile-menu a:hover{background:rgba(0,168,255,0.04);color:var(--bg)}
 
-    /* HERO */
-    .hero-wrap {
-      position: relative;
-      min-height: 240px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      overflow: hidden;
-      padding: 2.25rem 1rem;
-      background: linear-gradient(135deg, #002b4a, #004970);
-    }
-    canvas.graph-canvas {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      display: block;
-      z-index: 0;
-    }
-    .hero-content {
-      position: relative;
-      z-index: 2;
-      text-align: center;
-      max-width: 1200px;
-      width: 100%;
-      pointer-events: none;
-      padding: 0 1rem;
-    }
-    .hero-content h1 {
-      margin: 0;
-      font-size: 2.1rem;
-      letter-spacing: 0.6px;
-      font-weight: 700;
-      color: white;
-    }
-    .hero-content p {
-      margin: 0.5rem 0 0;
-      color: rgba(255, 255, 255, 0.8);
-    }
-    .vignette {
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0.35) 100%);
-      z-index: 1;
-    }
+    /* header / hero */
+    .hero-wrap{position:relative;min-height:240px;display:flex;align-items:center;justify-content:center;color:white;overflow:hidden;padding:2.25rem 1rem;box-sizing:border-box;background:var(--bg)}
+    canvas.graph-canvas{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:0}
+    .hero-content{position:relative;z-index:2;text-align:center;max-width:1200px;width:100%;pointer-events:none;padding:0 1rem}
+    .hero-content h1{margin:0;font-size:2.1rem;letter-spacing:0.6px;font-weight:700;color:white}
+    .hero-content p{margin:0.5rem 0 0;color:rgba(255,255,255,0.85)}
+    .hero-content a{pointer-events:auto}
+    .vignette{position:absolute;inset:0;pointer-events:none;z-index:1;background:radial-gradient(ellipse at center, rgba(0,0,0,0) 30%, rgba(0,0,0,0.18) 100%)}
 
-    /* MAIN CONTENT */
-    main {
-      max-width: var(--max-width);
-      margin: 2rem auto;
-      padding: 0 1rem;
-      box-sizing: border-box;
-    }
-    section {
-      background: #161b22;
-      border-radius: 10px;
-      padding: 1.2rem;
-      margin-bottom: 1rem;
-      min-height: 120px;
-      box-shadow: 0 1px 0 rgba(255, 255, 255, 0.04);
-      display: block;
-    }
-    section h2 {
-      margin: 0 0 .6rem 0;
-      font-size: 1.05rem;
-      color: var(--electric-1);
-      font-weight: 700;
-    }
-    section p, li {
-      color: var(--muted);
-    }
-    section a {
-      color: var(--electric-1);
-      text-decoration: none;
-    }
-    section a:hover {
-      color: var(--electric-2);
-      text-decoration: underline;
-    }
+    /* MAIN */
+    main{max-width:var(--max-width);margin:2rem auto;padding:0 1rem;box-sizing:border-box}
+    section{background:#fff;border-radius:10px;padding:1.2rem;margin-bottom:1rem;min-height:120px;box-shadow:0 1px 0 rgba(0,0,0,0.03);display:block}
+    section h2{margin:0 0 .6rem 0;font-size:1.05rem;color:var(--bg);font-weight:700}
 
-    /* RESEARCH PANELS */
-    .research-panel {
-      display: flex;
-      gap: 1.8rem;
-      align-items: center;
-      padding-top: 0.5rem;
-      flex-wrap: wrap;
-    }
-    .animation-container {
-      flex: 1 1 320px;
-      min-width: 0;
-      border-radius: 8px;
-      overflow: hidden;
-      position: relative;
-      background-color: #0d1a26;
-      box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.1);
-      aspect-ratio: 16/9;
-    }
-    .description-container h3 {
-      color: #e6edf3;
-    }
-    .description-container p {
-      color: var(--muted);
-    }
+    /* footer */
+    footer.site-footer{background:var(--bg);color:white;padding:1.25rem;margin-top:2rem}
+    .footer-inner{max-width:var(--max-width);margin:0 auto;padding:0 1rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;box-sizing:border-box}
+    .footer-contact{font-size:0.95rem;color:rgba(255,255,255,0.95)}
 
-    /* EDUCATION */
-    .edu-entry {
-      display: flex;
-      align-items: flex-start;
-      gap: 1rem;
-      padding: 0.8rem;
-      border-radius: 8px;
-      margin-bottom: 0.9rem;
-      background: rgba(255, 255, 255, 0.02);
-      box-shadow: 0 1px 0 rgba(255, 255, 255, 0.05);
-    }
-    .edu-entry .logo img {
-      width: 64px;
-      height: 64px;
-      object-fit: contain;
-      border-radius: 6px;
-    }
+    /* research panel */
+    .research-panel{display:flex;gap:1.8rem;align-items:center;padding-top:0.5rem;flex-wrap:wrap}
+    .animation-container{flex:1 1 320px;min-width:0;border-radius:8px;overflow:hidden;position:relative;background-color:#0d1a26;box-shadow:inset 0 0 10px rgba(0,0,0,0.2);aspect-ratio:16/9}
+    .animation-container canvas{position:absolute;width:100%;height:100%;top:0;left:0;display:block}
+    .description-container{flex:1.5 1 300px;min-width:0}
+    .description-container h3{margin:0 0 0.5rem 0;font-weight:600;font-size:1.1rem;color:#1f2937}
+    .description-container p{color:#6b7280;line-height:1.6;margin:0;font-size:0.95rem}
 
-    /* CONTACT GRID */
-    .contact-grid a {
-      color: var(--muted);
-    }
-    .contact-grid a:hover {
-      color: var(--electric-1);
-    }
+    /* education list visuals */
+    .edu-entry{display:flex;align-items:flex-start;gap:1rem;padding:0.8rem;border-radius:8px;margin-bottom:0.9rem;box-shadow:0 1px 0 rgba(0,0,0,0.03)}
+    .edu-entry .logo{flex:0 0 72px;display:flex;align-items:center;justify-content:center}
+    .edu-entry .logo img{width:64px;height:64px;object-fit:contain;border-radius:6px}
+    .edu-entry .details{flex:1;min-width:0}
 
-    /* FOOTER */
-    footer.site-footer {
-      background: #0a0d12;
-      color: #e6edf3;
-      padding: 1.25rem;
-      margin-top: 2rem;
-    }
-    .footer-inner {
-      max-width: var(--max-width);
-      margin: 0 auto;
-      padding: 0 1rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 1rem;
-      box-sizing: border-box;
-    }
-    .footer-contact {
-      font-size: 0.95rem;
-      color: var(--muted);
-    }
+    /* contact icons grid */
+    .contact-grid{display:flex;justify-content:center;flex-wrap:wrap;gap:28px}
+    .contact-grid a{display:flex;flex-direction:column;align-items:center;text-decoration:none;color:#6b7280}
+    .contact-grid img{width:60px;height:60px;object-fit:contain;margin-bottom:8px}
 
-    /* Responsive adjustments */
+    /* small tweaks */
+    @media (max-width:1024px){.animation-container{aspect-ratio:14/9}.research-panel{gap:1rem}}
+
     @media (max-width:920px){
+      .nav-inner{padding:0.6rem}
       .nav-links{display:none}
       .nav-toggle{display:inline-flex}
       .mobile-menu{display:none}
     }
+
     @media (max-width:720px){
       .footer-inner{flex-direction:column;align-items:flex-start;gap:.6rem}
       .research-panel{flex-direction:column;align-items:stretch}
       .animation-container,.description-container{width:100%;flex:none}
       .animation-container{aspect-ratio:4/3}
+      .description-container{padding-top:0.6rem}
     }
+
+    @media (max-width:420px){
+      .animation-container{aspect-ratio:3/2}
+      .hero-content h1{font-size:1.8rem}
+      .hero-content p{font-size:0.92rem}
+      .contact-grid{gap:16px}
+    }
+
+    @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
   </style>
 </head>
 <body>
-  <!-- The body content stays unchanged -->
-  <!-- (you can paste your original HTML body here; styling is updated for dark mode) -->
+
+  <nav class="nav" role="navigation" aria-label="Primary">
+    <div class="nav-inner">
+      <a class="brand" href="#home" aria-label="Home">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" /></svg>
+        Aakash Kumar
+      </a>
+
+      <div style="display:flex;align-items:center;gap:8px">
+        <div class="nav-links" role="menu" aria-hidden="false">
+          <a href="#about" role="menuitem">About</a>
+          <a href="#education" role="menuitem">Education</a>
+          <a href="#research" role="menuitem">Research</a>
+          <a href="#publications" role="menuitem">Publications</a>
+          <a href="#teaching" role="menuitem">Teaching</a>
+          <a href="#contact" role="menuitem">Contact</a>
+        </div>
+
+        <button class="nav-toggle" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open menu">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+        </button>
+      </div>
+    </div>
+
+    <div id="mobileMenu" class="mobile-menu" role="menu" aria-hidden="true">
+      <a href="#about" role="menuitem">About</a>
+      <a href="#education" role="menuitem">Education</a>
+      <a href="#research" role="menuitem">Research</a>
+      <a href="#publications" role="menuitem">Publications</a>
+      <a href="#teaching" role="menuitem">Teaching</a>
+      <a href="#contact" role="menuitem">Contact</a>
+    </div>
+  </nav>
+
+  <header class="hero-wrap" role="banner" aria-label="Header with animated graph background">
+    <canvas class="graph-canvas" id="graphCanvas" aria-hidden="true"></canvas>
+
+    <div class="vignette" aria-hidden="true"></div>
+
+    <div class="hero-content">
+      <h1>Aakash Kumar</h1>
+      <p>PhD Student — Theoretical Machine Learning · Physics</p>
+    </div>
+  </header>
+
+  <main role="main" aria-labelledby="mainHeading">
+    <section id="about" aria-labelledby="aboutHeading">
+      <h2 id="aboutHeading">About</h2>
+      <p style="color: #6b7280;">
+        I am a PhD student based in Nice, affiliated with CNRS, INRIA and Université Côte d’Azur.
+        My supervisor is <a href="https://natema.github.io/" style="color: grey; font-weight: bold;">Prof. Emanuele Natale</a>.
+        My research focuses on the theoretical aspects of machine learning, specifically tackling problems
+        at the intersection of theoretical computer science and physics. Drawing on my background in Physics
+        (BS–MS, IISER Kolkata), my current interests center on foundational topics, including Hopfield networks
+        and brain-inspired learning dynamics, the mathematical theory of neural network pruning, and the
+        analysis of neural scaling laws.
+      </p>
+    </section>
+
+    <section id="education" aria-labelledby="educationHeading">
+      <h2 id="educationHeading">Education</h2>
+
+      <div class="edu-entry">
+        <div class="logo">
+          <img src="inria.png" alt="Inria logo" />
+        </div>
+        <div class="details">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:1rem;">
+            <div>
+              <div style="font-weight:700;color:#111;font-size:1rem;">PhD, Theoretical Machine Learning</div>
+              <div style="margin-top:4px;color:var(--muted);font-size:0.95rem;">Inria</div>
+            </div>
+            <div style="color:var(--muted);font-size:0.9rem;white-space:nowrap;">2025 — 2028 (expected)</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="edu-entry">
+        <div class="logo">
+          <img src="iiserk.png" alt="IISER Kolkata logo" />
+        </div>
+        <div class="details">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:1rem;">
+            <div>
+              <div style="font-weight:700;color:#111;font-size:1rem;">BS-MS, Physics</div>
+              <div style="margin-top:4px;color:var(--muted);font-size:0.95rem;">Indian Institute of Science Education and Research, Kolkata</div>
+            </div>
+            <div style="color:var(--muted);font-size:0.9rem;white-space:nowrap;">2020 — 2025</div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <section id="research" aria-labelledby="researchHeading">
+      <h2 id="researchHeading">Research</h2>
+
+      <!-- Directed Hopfield panel -->
+      <div class="research-panel">
+        <div class="animation-container">
+          <canvas id="hopfieldCanvas" aria-hidden="true"></canvas>
+        </div>
+        <div class="description-container">
+          <h3>Directed Hopfield Networks</h3>
+          <p>
+            I am working on the theory of Directed Hopfield networks (DHNs). DHNs are a variation of classic Hopfield networks where connections between neurons are not symmetric. This asymmetry prevents them from having a simple energy function, meaning they rarely settle into stable states. Instead, their dynamics can be much richer, producing cycles or even chaotic behavior. I am interested in the capacity of DHNs to store limit-cycle attractors and their robustness.
+          </p>
+        </div>
+      </div>
+
+      <!-- Lottery ticket panel -->
+      <div class="research-panel">
+        <div class="animation-container">
+          <canvas id="lotteryCanvas" aria-hidden="true"></canvas>
+        </div>
+        <div class="description-container">
+          <h3>Strong Lottery Ticket Hypothesis</h3>
+          <p>
+            I have also been working on the Strong Lottery Ticket Hypothesis, which states that within a randomly initialized neural network, there exist subnetworks that can achieve performance comparable to a trained network without any training. Specifically, I have been interested in the interplay between weight quantization and pruning in the context of the Strong Lottery Ticket Hypothesis. See my <a href="#publications" role="menuitem">Publications</a> for more details.
+          </p>
+        </div>
+      </div>
+
+    </section>
+
+    <section id="publications" aria-labelledby="publicationsHeading">
+      <h2 id="publicationsHeading">Publications</h2>
+      <ul style="color: #6b7280; line-height: 1.6; font-size: 0.95rem; padding-left: 1.2rem; margin: 0;">
+        <li><a href="https://openreview.net/forum?id=uFiFLZyL9j" style="color: grey; font-weight: bold;">A Unified Framework for Quantized and Continuous Strong Lottery Tickets</a> by Aakash Kumar and Emanuele Natale (2025) - under double blind review.</li>
+        <li><a href="https://arxiv.org/abs/2508.11020" style="color: grey; font-weight: bold;">Quantization vs Pruning: Insights from the Strong Lottery Ticket Hypothesis</a> by Aakash Kumar and Emanuele Natale (2025) - under double blind review.</li>
+      </ul>
+    </section>
+
+    <section id="teaching" aria-labelledby="teachingHeading">
+      <h2 id="teachingHeading">Teaching</h2>
+      <ul style="color: #6b7280; line-height: 1.6; font-size: 0.95rem; padding-left: 1.2rem; margin: 0;">
+        <li>Teaching assistant for the course <b>Mathematical Methods for Physics I</b> offered in Spring 2025 at IISER Kolkata to second year undergraduates.</li>
+        <li>Gave a talk on the <b>early works of John Hopfield and Geoffrey Hinton</b> for which they won the 2024 Nobel Prize in Physics.</li>
+      </ul>
+    </section>
+
+    <section id="contact" aria-labelledby="contactHeading" style="text-align:center;margin-top:40px;">
+      <h2 id="contactHeading" style="margin-bottom:20px;">Contact</h2>
+      <div class="contact-grid">
+        <a href="mailto:aakash.kumar@inria.fr" style="text-decoration:none;color:#6b7280;">
+          <img src="zimbra.png" alt="Email">
+          <div>aakash.kumar@inria.fr</div>
+        </a>
+        <a href="https://scholar.google.com/citations?user=2OShat0AAAAJ&hl=en" target="_blank" rel="noopener noreferrer">
+          <img src="scholar.png" alt="Google Scholar">
+          <div>Aakash Kumar</div>
+        </a>
+        <a href="https://orcid.org/0009-0002-7491-9629" target="_blank" rel="noopener noreferrer">
+          <img src="orchid.png" alt="ORCID">
+          <div>0009-0002-7491-9629</div>
+        </a>
+        <a href="https://github.com/Aakash-verse" target="_blank" rel="noopener noreferrer">
+          <img src="2.png" alt="GitHub">
+          <div>Aakash-verse</div>
+        </a>
+        <a href="https://linkedin.com/in/aakash-kumar-9a2895364" target="_blank" rel="noopener noreferrer">
+          <img src="linkedin.png" alt="LinkedIn">
+          <div>Aakash Kumar</div>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer" role="contentinfo" aria-label="Footer with contact">
+    <div class="footer-inner">
+      <div class="footer-contact"></div>
+      <div aria-hidden="true" style="opacity:0.9">&copy; <script>document.write(new Date().getFullYear());</script> Aakash Kumar</div>
+    </div>
+  </footer>
+
+  <!-- scripts: minor updates for responsive canvas handling & mobile menu -->
+  <script>
+    // mobile menu toggle
+    (function(){
+      const btn = document.querySelector('.nav-toggle');
+      const menu = document.getElementById('mobileMenu');
+      if (!btn || !menu) return;
+      btn.addEventListener('click', ()=>{
+        const open = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', String(!open));
+        menu.style.display = open ? 'none' : 'block';
+        menu.setAttribute('aria-hidden', String(open));
+      });
+      // close when a menu item clicked (mobile)
+      menu.querySelectorAll('a').forEach(a=>a.addEventListener('click', ()=>{ menu.style.display='none'; btn.setAttribute('aria-expanded','false'); menu.setAttribute('aria-hidden','true'); }));
+      // hide on resize > breakpoint
+      window.addEventListener('resize', ()=>{ if (window.innerWidth > 920){ menu.style.display='none'; btn.setAttribute('aria-expanded','false'); menu.setAttribute('aria-hidden','true'); } });
+    })();
+
+    // high-DPI helper
+    function makeHiDPICanvas(canvas){
+      const ctx = canvas.getContext('2d');
+      const dpr = Math.max(1, window.devicePixelRatio || 1);
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = Math.max(1, Math.floor(rect.width * dpr));
+      canvas.height = Math.max(1, Math.floor(rect.height * dpr));
+      canvas.style.width = rect.width + 'px';
+      canvas.style.height = rect.height + 'px';
+      ctx.setTransform(dpr,0,0,dpr,0,0);
+      return ctx;
+    }
+
+    // existing graph background (unchanged logic, but use HiDPI resize)
+    (function(){
+      const canvas = document.getElementById('graphCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d', { alpha: true });
+      let DPR = Math.max(1, window.devicePixelRatio || 1);
+      const CONFIG = { nodeCountDensity:0.00025, nodeRadius:2.2, maxLinkDistance:140, lineWidth:0.9, speed:0.5, repulseRadius:120, pointerForce:0.75, originAttraction:0.02, friction:0.92, color1:'#ffffff', color2:'#ffffff', driftAmplitude:0.04, driftApply:0.18, driftSpeed:0.0006 };
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches; if (prefersReduced) CONFIG.speed=0;
+      let width=0,height=0,nodes=[],pointer={x:null,y:null,down:false};
+
+      function resize(){
+        const rect = canvas.getBoundingClientRect();
+        width = Math.max(100, Math.floor(rect.width));
+        height = Math.max(80, Math.floor(rect.height));
+        DPR = Math.max(1, window.devicePixelRatio || 1);
+        canvas.width = Math.floor(width * DPR);
+        canvas.height = Math.floor(height * DPR);
+        canvas.style.width = width + 'px';
+        canvas.style.height = height + 'px';
+        ctx.setTransform(DPR,0,0,DPR,0,0);
+        const area = width * height;
+        const desired = Math.max(12, Math.round(area * CONFIG.nodeCountDensity));
+        if (nodes.length < desired) for (let i=nodes.length;i<desired;i++) nodes.push(createNode()); else if (nodes.length > desired) nodes.length = desired;
+        nodes.forEach(n=>{ n.ox = n.oxNormalized * width; n.oy = n.oyNormalized * height; n.x = Math.max(0, Math.min(width, n.x)); n.y = Math.max(0, Math.min(height, n.y)); });
+      }
+
+      function createNode(){ const ox=Math.random(), oy=Math.random(); return { oxNormalized:ox, oyNormalized:oy, ox:ox*width, oy:oy*height, x:ox*width+(Math.random()-0.5)*30, y:oy*height+(Math.random()-0.5)*30, vx:(Math.random()-0.5)*0.6, vy:(Math.random()-0.5)*0.6, r:CONFIG.nodeRadius, pulse:Math.random()*Math.PI*2, hueShift:Math.random()*40-20 }; }
+      function lerp(a,b,t){return a+(b-a)*t}
+      let driftAngle = Math.random()*Math.PI*2; let last = performance.now();
+      function frame(now){ const dt = Math.min(40, now-last)/16.666; last = now; update(dt*CONFIG.speed); render(); if (CONFIG.speed!==0) requestAnimationFrame(frame); }
+      function update(elapsed){ driftAngle += CONFIG.driftSpeed * elapsed; const gdX = Math.cos(driftAngle)*CONFIG.driftAmplitude; const gdY = Math.sin(driftAngle)*CONFIG.driftAmplitude; nodes.forEach(node=>{ node.vx += gdX*CONFIG.driftApply*elapsed; node.vy += gdY*CONFIG.driftApply*elapsed; const dx0=node.ox-node.x, dy0=node.oy-node.y; node.vx += dx0*CONFIG.originAttraction*elapsed; node.vy += dy0*CONFIG.originAttraction*elapsed; node.pulse += 0.01*elapsed; node.vx += Math.cos(node.pulse)*0.003*elapsed; node.vy += Math.sin(node.pulse)*0.003*elapsed; if (pointer.x!==null){ const dx=node.x-pointer.x, dy=node.y-pointer.y; const dist=Math.hypot(dx,dy); if (dist < CONFIG.repulseRadius){ const force = (1 - (dist / CONFIG.repulseRadius)) * CONFIG.pointerForce * (pointer.down ? 2.2 : 1.0); const nx = dx/dist || (Math.random()-0.5); const ny = dy/dist || (Math.random()-0.5); node.vx += nx * force * elapsed * 1.2; node.vy += ny * force * elapsed * 1.2; } } node.vx *= CONFIG.friction; node.vy *= CONFIG.friction; node.x += node.vx * elapsed; node.y += node.vy * elapsed; if (node.x < -20) node.x = width + 20; if (node.x > width + 20) node.x = -20; if (node.y < -20) node.y = height + 20; if (node.y > height + 20) node.y = -20; }); }
+      function render(){ ctx.clearRect(0,0,width,height); ctx.lineWidth = CONFIG.lineWidth; ctx.lineCap='round'; for (let i=0;i<nodes.length;i++){ const a=nodes[i]; for (let j=i+1;j<nodes.length;j++){ const b=nodes[j]; const dx=a.x-b.x, dy=a.y-b.y, d2=dx*dx+dy*dy; if (d2 > CONFIG.maxLinkDistance*CONFIG.maxLinkDistance) continue; const d=Math.sqrt(d2); const t = 1 - (d / CONFIG.maxLinkDistance); const mx=(a.x+b.x)/2, my=(a.y+b.y)/2; let alpha = Math.pow(t,1.1)*0.85; if (pointer.x!==null){ const pd=Math.hypot(mx-pointer.x, my-pointer.y); if (pd < CONFIG.repulseRadius) alpha = Math.max(alpha, 0.9 * (1 - pd / CONFIG.repulseRadius)); } const grad = ctx.createLinearGradient(a.x,a.y,b.x,b.y); grad.addColorStop(0, shadeColor(CONFIG.color1,a.hueShift,alpha)); grad.addColorStop(1, shadeColor(CONFIG.color2,b.hueShift,alpha)); ctx.strokeStyle = grad; ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke(); } }
+        for (let i=0;i<nodes.length;i++){ const n=nodes[i]; let alpha=0.85; if (pointer.x!==null){ const pd=Math.hypot(n.x-pointer.x,n.y-pointer.y); if (pd < CONFIG.repulseRadius) alpha = lerp(1,0.6,pd/CONFIG.repulseRadius); } const pulse = 0.6 + Math.sin(n.pulse*1.6)*0.3; const r = Math.max(0.8, n.r * pulse); const g = ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,Math.max(8,r*6)); g.addColorStop(0, shadeColor(CONFIG.color1,n.hueShift,alpha*0.95)); g.addColorStop(0.6, shadeColor(CONFIG.color2,n.hueShift,alpha*0.25)); g.addColorStop(1, 'rgba(0,0,0,0)'); ctx.fillStyle = g; ctx.beginPath(); ctx.arc(n.x,n.y,Math.max(1.4,r*2.6),0,Math.PI*2); ctx.fill(); ctx.fillStyle = shadeColor('#ffffff',0,alpha); ctx.beginPath(); ctx.arc(n.x,n.y,Math.max(0.8,r*0.45),0,Math.PI*2); ctx.fill(); }
+      }
+      function shadeColor(hex, hueShift=0, alpha=1){ const c = hex.replace('#',''); const r=parseInt(c.substring(0,2),16); const g=parseInt(c.substring(2,4),16); const b=parseInt(c.substring(4,6),16); return `rgba(${r},${g},${b},${Math.max(0,Math.min(1,alpha))})`; }
+      function onPointerMove(e){ const rect=canvas.getBoundingClientRect(); const px=(e.clientX-rect.left); const py=(e.clientY-rect.top); pointer.x = Math.max(0, Math.min(width, px)); pointer.y = Math.max(0, Math.min(height, py)); }
+      function onPointerLeave(){ pointer.x=null; pointer.y=null; }
+      function onPointerDown(){ pointer.down=true; }
+      function onPointerUp(){ pointer.down=false; }
+      canvas.addEventListener('pointermove', onPointerMove); canvas.addEventListener('pointerleave', onPointerLeave); canvas.addEventListener('pointerdown', onPointerDown); window.addEventListener('pointerup', onPointerUp);
+      const ro = new ResizeObserver(resize); ro.observe(canvas.parentElement);
+      resize(); for (let i=0;i<6;i++) update(1); if (CONFIG.speed !== 0) requestAnimationFrame(frame); else render(); window._graphBg={nodes,resize,config:CONFIG};
+    })();
+
+    // Hopfield canvas: make HiDPI-aware and responsive
+    (function(){
+      const canvas = document.getElementById('hopfieldCanvas'); if (!canvas) return; let ctx = canvas.getContext('2d'); let nodes = [], edges = [], numNodes = 30, edgeProbability = 0.1; const colors={background:'#0d1a26',edge:'rgba(128,128,128,0.3)', nodeGrey:'#4A5568', nodeWhite:'#FFFFFF'}; const nodeRadiusBase = 4; let dpr = Math.max(1, window.devicePixelRatio || 1);
+      function resizeCanvas(){ const rect = canvas.getBoundingClientRect(); dpr = Math.max(1, window.devicePixelRatio || 1); canvas.width = Math.max(1, Math.floor(rect.width * dpr)); canvas.height = Math.max(1, Math.floor(rect.height * dpr)); canvas.style.width = rect.width + 'px'; canvas.style.height = rect.height + 'px'; ctx = canvas.getContext('2d'); ctx.setTransform(dpr,0,0,dpr,0,0); init(); }
+      function init(){ nodes=[]; edges=[]; for (let i=0;i<numNodes;i++){ nodes.push({ id:i, x: Math.random()*canvas.width/dpr, y: Math.random()*canvas.height/dpr, vx:(Math.random()-0.5)*0.3, vy:(Math.random()-0.5)*0.3, radius: nodeRadiusBase, isWhite: Math.random()>0.5, flipTimer: Math.random()*200+100 }); }
+        for (let i=0;i<numNodes;i++){ for (let j=i+1;j<numNodes;j++){ if (Math.random() < edgeProbability) edges.push({ source: nodes[i], target: nodes[j] }); } }
+      }
+      function drawEdges(){ ctx.strokeStyle = colors.edge; ctx.lineWidth = 1; edges.forEach(edge=>{ ctx.beginPath(); ctx.moveTo(edge.source.x, edge.source.y); ctx.lineTo(edge.target.x, edge.target.y); ctx.stroke(); }); }
+      function drawNodes(){ nodes.forEach(node=>{ ctx.beginPath(); if (node.isWhite){ ctx.fillStyle = colors.nodeWhite; ctx.shadowColor = 'rgba(255,255,255,0.7)'; ctx.shadowBlur = 12; } else { ctx.fillStyle = colors.nodeGrey; ctx.shadowColor = 'transparent'; ctx.shadowBlur = 0; } ctx.arc(node.x,node.y,node.radius,0,Math.PI*2); ctx.fill(); }); ctx.shadowColor = 'transparent'; ctx.shadowBlur = 0; }
+      function update(){ nodes.forEach(node=>{ node.x += node.vx; node.y += node.vy; if (node.x - node.radius < 0 || node.x + node.radius > canvas.width/dpr) node.vx *= -1; if (node.y - node.radius < 0 || node.y + node.radius > canvas.height/dpr) node.vy *= -1; node.flipTimer--; if (node.flipTimer <= 0){ node.isWhite = !node.isWhite; node.flipTimer = Math.random()*300+150; } }); }
+      function animate(){ ctx.fillStyle = colors.background; ctx.fillRect(0,0,canvas.width/dpr,canvas.height/dpr); update(); drawEdges(); drawNodes(); requestAnimationFrame(animate); }
+      const ro = new ResizeObserver(resizeCanvas); ro.observe(canvas.parentElement); resizeCanvas(); animate();
+    })();
+
+    // Lottery ticket canvas: HiDPI-aware and responsive
+    (function(){
+      const canvas = document.getElementById('lotteryCanvas'); if (!canvas) return; let ctx = canvas.getContext('2d'); let dpr = Math.max(1, window.devicePixelRatio || 1); let nodeRadius = 6; let nodes=[], originalEdges=[], edges=[];
+      function init(){ const rect = canvas.getBoundingClientRect(); const w = rect.width; const h = rect.height; nodeRadius = Math.max(4, Math.min(18, w*0.025)); const layers = [ { nodes:3, x: w*0.2 }, { nodes:4, x: w*0.45 }, { nodes:2, x: w*0.7 } ]; let maxNodes = Math.max(...layers.map(l=>l.nodes)); const verticalSpacing = h / (maxNodes + 1); nodes = []; layers.forEach(layer=>{ const layerNodes=[]; const startY = (h - (layer.nodes - 1) * verticalSpacing) / 2; for (let i=0;i<layer.nodes;i++){ const y = startY + i*verticalSpacing; layerNodes.push({ x: layer.x, y }); } nodes.push(layerNodes); }); originalEdges = []; for (let l=0;l<layers.length-1;l++){ nodes[l].forEach(fromNode=>{ nodes[l+1].forEach(toNode=>{ originalEdges.push({ from: fromNode, to: toNode }); }); }); } edges = [...originalEdges]; }
+      function drawNodes(){ nodes.flat().forEach(node=>{ ctx.beginPath(); ctx.arc(node.x, node.y, nodeRadius, 0, 2*Math.PI); ctx.fillStyle = '#FFFFFF'; ctx.fill(); ctx.strokeStyle = '#CCCCCC'; ctx.stroke(); }); }
+      function drawEdges(){ ctx.strokeStyle = 'rgba(255,255,255,0.3)'; ctx.lineWidth = 1; edges.forEach(edge=>{ ctx.beginPath(); ctx.moveTo(edge.from.x + nodeRadius, edge.from.y); ctx.lineTo(edge.to.x - nodeRadius, edge.to.y); ctx.stroke(); }); }
+      function redraw(){ ctx.clearRect(0,0,canvas.width/dpr,canvas.height/dpr); drawEdges(); drawNodes(); }
+      let removalInterval = null;
+      function setupInterval(){ if (removalInterval) clearInterval(removalInterval); removalInterval = setInterval(()=>{ if (edges.length === 0){ edges = [...originalEdges]; } const randomIndex = Math.floor(Math.random() * edges.length); edges.splice(randomIndex, 1); redraw(); }, 500); }
+      function resize(){ const rect = canvas.getBoundingClientRect(); dpr = Math.max(1, window.devicePixelRatio || 1); canvas.width = Math.max(1, Math.floor(rect.width * dpr)); canvas.height = Math.max(1, Math.floor(rect.height * dpr)); canvas.style.width = rect.width + 'px'; canvas.style.height = rect.height + 'px'; ctx = canvas.getContext('2d'); ctx.setTransform(dpr,0,0,dpr,0,0); init(); redraw(); setupInterval(); }
+      const ro = new ResizeObserver(resize); ro.observe(canvas.parentElement); resize();
+    })();
+  </script>
+
 </body>
 </html>
