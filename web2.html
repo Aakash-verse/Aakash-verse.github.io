@@ -1,0 +1,636 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Aakash Kumar - PhD Student in Theoretical Machine Learning & Physics.">
+  <title>Aakash Kumar | Theoretical ML</title>
+  
+  <!-- Modern Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;500;600&family=Outfit:wght@300;500;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+
+  <style>
+    /* ------------------------------------------------------------------
+       VARIABLES & THEME CONFIG
+       ------------------------------------------------------------------ */
+    :root {
+      /* Palette: Minimalist Swiss Style */
+      --font-display: 'Outfit', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+
+      /* Light Mode */
+      --bg-page: #f2f2f4; /* Soft grey, paper-like */
+      --bg-card: rgba(255, 255, 255, 0.7);
+      --bg-card-hover: rgba(255, 255, 255, 0.95);
+      --text-main: #18181b;
+      --text-muted: #52525b;
+      --accent: #2563eb; /* Academic Blue */
+      --accent-glow: rgba(37, 99, 235, 0.15);
+      --border: rgba(0, 0, 0, 0.08);
+      --glass-border: 1px solid rgba(255, 255, 255, 0.5);
+      
+      --nav-bg: rgba(255, 255, 255, 0.8);
+      --nav-shadow: 0 10px 30px -10px rgba(0,0,0,0.1);
+      
+      --canvas-node: #18181b;
+      --canvas-line: rgba(24, 24, 27, 0.15);
+
+      --max-width: 900px;
+      --radius: 16px;
+    }
+
+    [data-theme="dark"] {
+      /* Dark Mode */
+      --bg-page: #09090b; /* Deep matte black */
+      --bg-card: rgba(24, 24, 27, 0.6);
+      --bg-card-hover: rgba(39, 39, 42, 0.8);
+      --text-main: #f4f4f5;
+      --text-muted: #a1a1aa;
+      --accent: #60a5fa; /* Lighter blue for dark mode */
+      --accent-glow: rgba(96, 165, 250, 0.15);
+      --border: rgba(255, 255, 255, 0.08);
+      --glass-border: 1px solid rgba(255, 255, 255, 0.05);
+      
+      --nav-bg: rgba(9, 9, 11, 0.8);
+      --nav-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+
+      --canvas-node: #ffffff;
+      --canvas-line: rgba(255, 255, 255, 0.15);
+    }
+
+    /* ------------------------------------------------------------------
+       RESET & BASE
+       ------------------------------------------------------------------ */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    html { scroll-behavior: smooth; }
+    
+    body {
+      background: var(--bg-page);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      line-height: 1.7;
+      transition: background 0.4s ease, color 0.4s ease;
+      overflow-x: hidden;
+    }
+
+    ::selection { background: var(--accent); color: white; }
+
+    a { color: inherit; text-decoration: none; transition: 0.2s; position: relative; }
+    
+    /* Underline animation for links */
+    .link-fx { color: var(--accent); font-weight: 500; }
+    .link-fx::after {
+      content: ''; position: absolute; bottom: -2px; left: 0; width: 0%; height: 2px;
+      background: var(--accent); transition: width 0.3s ease; opacity: 0.6;
+    }
+    .link-fx:hover::after { width: 100%; }
+
+    h1, h2, h3 { font-family: var(--font-display); color: var(--text-main); line-height: 1.2; }
+    p { margin-bottom: 1rem; color: var(--text-muted); font-size: 1.05rem; }
+
+    /* ------------------------------------------------------------------
+       LAYOUT UTILS
+       ------------------------------------------------------------------ */
+    .container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .section-title {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+      display: flex; align-items: center; gap: 1rem;
+      font-weight: 600;
+    }
+    .section-title::after {
+      content: ''; height: 1px; flex: 1;
+      background: var(--border);
+    }
+
+    section { margin-bottom: 6rem; scroll-margin-top: 100px; }
+
+    /* ------------------------------------------------------------------
+       NAVIGATION (Floating Pill)
+       ------------------------------------------------------------------ */
+    .nav-wrapper {
+      position: fixed; top: 20px; left: 0; right: 0;
+      display: flex; justify-content: center;
+      z-index: 100; pointer-events: none;
+    }
+
+    .nav {
+      background: var(--nav-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      padding: 0.5rem 0.6rem;
+      border-radius: 50px;
+      border: var(--glass-border);
+      box-shadow: var(--nav-shadow);
+      display: flex; align-items: center; gap: 0.5rem;
+      pointer-events: auto;
+      transition: transform 0.3s ease;
+    }
+
+    .nav a {
+      font-size: 0.9rem; font-weight: 500;
+      color: var(--text-muted);
+      padding: 0.5rem 1rem;
+      border-radius: 30px;
+    }
+    
+    .nav a:hover, .nav a.active {
+      color: var(--text-main);
+      background: var(--border);
+    }
+
+    .theme-btn {
+      background: transparent; border: none; cursor: pointer;
+      width: 36px; height: 36px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-main);
+      margin-left: 0.5rem;
+      transition: background 0.2s;
+    }
+    .theme-btn:hover { background: var(--border); }
+
+    /* Mobile Nav */
+    .mobile-btn { display: none; } 
+    @media (max-width: 768px) {
+      .nav a { display: none; }
+      .mobile-btn { display: block; border: none; background: transparent; cursor: pointer; color: var(--text-main); padding: 0 1rem; }
+      .nav.expanded { flex-direction: column; border-radius: 20px; align-items: stretch; }
+      .nav.expanded a { display: block; text-align: center; }
+    }
+
+    /* ------------------------------------------------------------------
+       HERO
+       ------------------------------------------------------------------ */
+    .hero {
+      min-height: 90vh;
+      display: flex; flex-direction: column; justify-content: center;
+      position: relative;
+      padding-top: 60px;
+    }
+
+    /* Canvas behind content */
+    #pruningCanvas {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      z-index: 0; opacity: 0.6;
+      mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+      pointer-events: none;
+    }
+
+    .hero-content { position: relative; z-index: 2; max-width: 700px; }
+
+    .tag {
+      display: inline-block; padding: 0.3rem 0.8rem;
+      border: 1px solid var(--accent); color: var(--accent);
+      border-radius: 50px; font-size: 0.8rem; font-weight: 600;
+      margin-bottom: 1.5rem; font-family: var(--font-mono);
+      background: var(--accent-glow);
+    }
+
+    h1 {
+      font-size: 4rem; font-weight: 700; letter-spacing: -0.03em;
+      margin-bottom: 1rem;
+    }
+    
+    .hero-role {
+      font-size: 1.5rem; color: var(--text-muted); font-weight: 400;
+      margin-bottom: 2rem;
+    }
+
+    .hero-links { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.7rem 1.5rem; border-radius: 8px;
+      font-weight: 600; font-size: 0.95rem;
+      transition: all 0.2s;
+    }
+    .btn-primary {
+      background: var(--text-main); color: var(--bg-page);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+    
+    .btn-outline {
+      border: 1px solid var(--border); background: var(--bg-card);
+    }
+    .btn-outline:hover { border-color: var(--text-main); }
+
+    /* ------------------------------------------------------------------
+       CARDS & GRID
+       ------------------------------------------------------------------ */
+    .card {
+      background: var(--bg-card);
+      border: var(--glass-border);
+      padding: 2rem;
+      border-radius: var(--radius);
+      transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
+      position: relative; overflow: hidden;
+    }
+    .card:hover {
+      background: var(--bg-card-hover);
+      transform: translateY(-4px);
+      box-shadow: 0 10px 40px -10px rgba(0,0,0,0.05);
+    }
+
+    /* ------------------------------------------------------------------
+       RESEARCH & PUBLICATIONS
+       ------------------------------------------------------------------ */
+    .research-grid {
+      display: grid; grid-template-columns: 1fr; gap: 2rem;
+    }
+    .pub-item {
+      display: flex; flex-direction: column; gap: 0.5rem;
+      border-bottom: 1px solid var(--border); padding-bottom: 1.5rem; margin-bottom: 1.5rem;
+    }
+    .pub-item:last-child { border-bottom: none; }
+    .pub-title { font-size: 1.2rem; font-weight: 600; color: var(--text-main); }
+    .pub-meta { font-family: var(--font-mono); font-size: 0.85rem; color: var(--accent); }
+    .pub-authors { font-size: 0.95rem; }
+
+    /* ------------------------------------------------------------------
+       EDUCATION TIMELINE
+       ------------------------------------------------------------------ */
+    .timeline { border-left: 2px solid var(--border); padding-left: 2rem; position: relative; }
+    .timeline-item { position: relative; margin-bottom: 3rem; }
+    .timeline-item::before {
+      content: ''; position: absolute; left: -2.4rem; top: 0.5rem;
+      width: 12px; height: 12px; background: var(--bg-page);
+      border: 2px solid var(--text-muted); border-radius: 50%;
+      transition: border-color 0.3s;
+    }
+    .timeline-item:hover::before { border-color: var(--accent); background: var(--accent); }
+    
+    .t-year { font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.2rem;}
+    .t-degree { font-size: 1.25rem; font-weight: 700; color: var(--text-main); }
+    .t-inst { font-size: 1rem; color: var(--accent); font-weight: 500; }
+    
+    .logo-strip { margin-top: 1rem; display: flex; gap: 1rem; opacity: 0.7; }
+    .logo-strip img { height: 30px; width: auto; object-fit: contain; }
+    /* Invert logos in dark mode if they are simple black/white, otherwise adjust opacity */
+    [data-theme="dark"] .logo-strip img { filter: brightness(0) invert(1); opacity: 0.6; }
+
+    /* ------------------------------------------------------------------
+       CONTACT ICONS
+       ------------------------------------------------------------------ */
+    .contact-row { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-top: 1rem; }
+    .icon-link {
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      font-size: 0.8rem; font-weight: 500; color: var(--text-muted);
+      padding: 1rem; background: var(--bg-card); border-radius: 12px; border: var(--glass-border);
+      min-width: 80px;
+    }
+    .icon-link img { width: 32px; height: 32px; filter: grayscale(100%); transition: 0.3s; }
+    [data-theme="dark"] .icon-link img { filter: grayscale(100%) invert(1); }
+    
+    .icon-link:hover { transform: translateY(-3px); color: var(--text-main); }
+    .icon-link:hover img { filter: none; }
+
+    /* ------------------------------------------------------------------
+       FOOTER
+       ------------------------------------------------------------------ */
+    footer {
+      text-align: center; padding: 4rem 0; color: var(--text-muted); font-size: 0.9rem;
+      border-top: 1px solid var(--border); margin-top: 4rem;
+    }
+
+    /* ------------------------------------------------------------------
+       RESPONSIVE
+       ------------------------------------------------------------------ */
+    @media (max-width: 768px) {
+      h1 { font-size: 2.8rem; }
+      .hero { justify-content: flex-start; padding-top: 140px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- FLOATING NAVIGATION -->
+  <div class="nav-wrapper">
+    <nav class="nav" id="mainNav">
+      <button class="mobile-btn" id="mobileToggle">Menu</button>
+      <a href="#about">About</a>
+      <a href="#research">Research</a>
+      <a href="#publications">Publications</a>
+      <a href="#education">Education</a>
+      <a href="#contact">Contact</a>
+      <button class="theme-btn" id="themeToggle" aria-label="Toggle Theme">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </nav>
+  </div>
+
+  <!-- HERO SECTION -->
+  <div class="hero">
+    <canvas id="pruningCanvas"></canvas>
+    
+    <div class="container hero-content">
+      <span class="tag">01. PROFILE</span>
+      <h1>Aakash Kumar</h1>
+      <div class="hero-role">
+        PhD Student in <span style="color:var(--text-main); font-weight:600;">Theoretical Machine Learning</span><br>
+        & Physics of Neural Networks
+      </div>
+      
+      <div class="hero-links">
+        <a href="#research" class="btn btn-primary">
+          View Research
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#contact" class="btn btn-outline">Get in Touch</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main class="container">
+    
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="section-title">02. Biography</div>
+      <div class="card">
+        <p style="font-size: 1.2rem; color: var(--text-main); margin-bottom: 1.5rem;">
+          I am a PhD student navigating the intersection of <strong>Theoretical Computer Science</strong> and <strong>Statistical Physics</strong>.
+        </p>
+        <p>
+          Based in Nice, France, I am affiliated with <a href="https://3ia.univ-cotedazur.eu/" class="link-fx" target="_blank">3IA Côte d’Azur</a>, Inria, and CNRS. Working under the supervision of <a href="https://natema.github.io/" class="link-fx">Prof. Emanuele Natale</a>, my research aims to mathematically demystify why deep learning works so well, with a specific focus on network pruning.
+        </p>
+        <p>
+          Prior to this, I completed my BS-MS in Physics at IISER Kolkata, giving me a strong foundation in the physical principles that often govern complex systems like Neural Networks.
+        </p>
+      </div>
+    </section>
+
+    <!-- RESEARCH -->
+    <section id="research">
+      <div class="section-title">03. Research Focus</div>
+      <div class="research-grid">
+        <div class="card">
+          <h3 style="margin-bottom: 1rem;">Strong Lottery Ticket Hypothesis (SLTH)</h3>
+          <p>
+            The <strong>SLTH</strong> suggests that within a large, randomly initialized neural network, there exists a "lucky" subnetwork that performs well without any weight training—purely by identifying the right structure (pruning).
+          </p>
+          <p>
+            My current work investigates the <strong>interplay between Quantization and Pruning</strong>. By applying tools from probability theory, I analyze the existence of these subnetworks in quantized regimes, paving the way for ultra-efficient neural networks that require minimal compute to train and deploy.
+          </p>
+          <div style="margin-top: 1.5rem; border-top: 1px solid var(--border); padding-top: 1rem; font-size: 0.9rem; font-family: var(--font-mono);">
+            Keywords: Neural Network Pruning, Random Subsets, Model Compression
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PUBLICATIONS -->
+    <section id="publications">
+      <div class="section-title">04. Publications</div>
+      
+      <div class="pub-item">
+        <a href="https://arxiv.org/abs/2508.11020" target="_blank" class="pub-title link-fx">
+          Quantization vs Pruning: Insights from the Strong Lottery Ticket Hypothesis
+          <svg style="width:14px; margin-left:5px; transform:translateY(1px);" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+        </a>
+        <div class="pub-authors">
+          <strong>Aakash Kumar</strong>, Emanuele Natale
+        </div>
+        <div class="pub-meta">ArXiv Preprint (2025)</div>
+      </div>
+<!--
+      <div class="pub-item">
+        <a href="https://openreview.net/forum?id=uFiFLZyL9j&noteId=HUNaBZK8DC" target="_blank" class="pub-title link-fx">
+          A Unified Framework for Quantized and Continuous Strong Lottery Tickets
+          <svg style="width:14px; margin-left:5px; transform:translateY(1px);" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+        </a>
+        <div class="pub-authors">
+          <strong>Aakash Kumar</strong>, Emanuele Natale
+        </div>
+        <div class="pub-meta">OpenReview (2025)</div>
+      </div>
+-->      
+      <!-- Placeholder for future pubs -->
+      <div style="text-align: center; margin-top: 2rem; color: var(--text-muted); font-size: 0.9rem; font-style: italic;">
+        More works in progress...
+      </div>
+    </section>
+
+    <!-- EDUCATION -->
+    <section id="education">
+      <div class="section-title">05. Academic Timeline</div>
+      <div class="timeline">
+        
+        <div class="timeline-item">
+          <div class="t-year">2025 — Present</div>
+          <div class="t-degree">PhD, Theoretical Machine Learning</div>
+          <div class="t-inst">Inria & Université Côte d’Azur, France</div>
+          <p style="margin-top: 0.5rem; font-size: 0.95rem;">
+            Team COATI. Advisors: Emanuele Natale.
+          </p>
+          <div class="logo-strip">
+            <img src="inria.png" alt="Inria"> <!-- Ensure these files exist or use text -->
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="t-year">2020 — 2025</div>
+          <div class="t-degree">BS-MS in Physical Sciences</div>
+          <div class="t-inst">IISER Kolkata, India</div>
+          <p style="margin-top: 0.5rem; font-size: 0.95rem;">
+            Thesis: <a href = "Phase_Transition_in_ANN.pdf" class="link-fx"> "Phase transition in Artificial Neural Networks" </a>.<br>
+            Teaching Assistant for Mathematical Methods I.
+          </p>
+          <div class="logo-strip">
+            <img src="iiserk.png" alt="IISER">
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="section-title">06. Connect</div>
+      <div class="card" style="text-align: center;">
+        <h3 style="margin-bottom: 0.5rem;">Let's Discuss Science</h3>
+        <p>I am always open to discussion and welcome you to contact me.</p>
+        
+        <div class="contact-row" style="justify-content: center;">
+          <a href="mailto:aakash.kumar@inria.fr" class="icon-link">
+            <img src="zimbra.png" alt="Email">
+            <span>Email</span>
+          </a>
+          <a href="https://scholar.google.com/citations?user=2OShat0AAAAJ&hl=en" class="icon-link" target="_blank">
+            <img src="scholar.png" alt="Google Scholar">
+            <span>Scholar</span>
+          </a>
+          <a href="https://github.com/Aakash-verse" class="icon-link" target="_blank">
+            <img src="2.png" alt="GitHub"> 
+            <span>GitHub</span>
+          </a>
+          <a href="https://linkedin.com/in/aakash-kumar-9a2895364" class="icon-link" target="_blank">
+            <img src="linkedin.png" alt="LinkedIn">
+            <span>LinkedIn</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="container">
+      &copy; 2025 Aakash Kumar. <br>
+      Designed with <span style="color:var(--accent);">&hearts;</span> for Science.
+    </div>
+  </footer>
+
+  <!-- SCRIPT -->
+  <script>
+    // ----------------------------------------------------
+    // THEME TOGGLE
+    // ----------------------------------------------------
+    const toggleBtn = document.getElementById('themeToggle');
+    const html = document.documentElement;
+    const iconPath = toggleBtn.querySelector('path');
+
+    // SVG Paths
+    const sunPath = "M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10z";
+    const moonPath = "M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z";
+
+    function setTheme(theme) {
+      html.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+      iconPath.setAttribute('d', theme === 'dark' ? sunPath : moonPath);
+    }
+
+    // Init
+    const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    setTheme(savedTheme);
+
+    toggleBtn.addEventListener('click', () => {
+      const current = html.getAttribute('data-theme');
+      setTheme(current === 'dark' ? 'light' : 'dark');
+    });
+
+    // ----------------------------------------------------
+    // MOBILE MENU
+    // ----------------------------------------------------
+    const nav = document.getElementById('mainNav');
+    const mobBtn = document.getElementById('mobileToggle');
+    mobBtn.addEventListener('click', () => {
+      nav.classList.toggle('expanded');
+    });
+
+    // ----------------------------------------------------
+    // PRUNING ANIMATION
+    // Visualizes a network starting dense and losing edges
+    // ----------------------------------------------------
+    const canvas = document.getElementById('pruningCanvas');
+    const ctx = canvas.getContext('2d');
+    
+    let nodes = [];
+    let edges = [];
+    let width, height;
+    let tick = 0;
+    
+    // Config
+    const NODE_COUNT = 40;
+    const REACH = 200;
+    
+    function init() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+      
+      nodes = [];
+      for(let i=0; i<NODE_COUNT; i++) {
+        nodes.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          vx: (Math.random() - 0.5) * 0.5,
+          vy: (Math.random() - 0.5) * 0.5
+        });
+      }
+      
+      // Pre-calculate edges
+      edges = [];
+      for(let i=0; i<NODE_COUNT; i++) {
+        for(let j=i+1; j<NODE_COUNT; j++) {
+          edges.push({ i, j, opacity: 1, life: Math.random() });
+        }
+      }
+    }
+
+    function animate() {
+      const style = getComputedStyle(document.body);
+      const colorNode = style.getPropertyValue('--canvas-node').trim();
+      
+      ctx.clearRect(0, 0, width, height);
+      
+      // Move Nodes
+      nodes.forEach(n => {
+        n.x += n.vx;
+        n.y += n.vy;
+        if(n.x < 0 || n.x > width) n.vx *= -1;
+        if(n.y < 0 || n.y > height) n.vy *= -1;
+      });
+
+      // Update Pruning Cycle
+      // Edges fade in and out based on sine wave logic to simulate "training/pruning" cycles
+      tick += 0.005;
+      const cycle = (Math.sin(tick) + 1) / 2; // 0 to 1
+      const threshold = 0.2 + (cycle * 0.8); // Varies between sparse and dense
+
+      ctx.lineWidth = 1;
+      
+      edges.forEach(e => {
+        const n1 = nodes[e.i];
+        const n2 = nodes[e.j];
+        const dist = Math.hypot(n1.x - n2.x, n1.y - n2.y);
+        
+        // "Pruning Logic": Only draw if distance is close AND edge has high "life" value relative to threshold
+        if (dist < REACH) {
+          if (e.life < threshold) {
+            // Calculate opacity based on distance and global cycle
+            const alpha = (1 - dist/REACH) * 0.3; // Low opacity
+            
+            // Set color based on theme
+            ctx.strokeStyle = colorNode === '#ffffff' 
+              ? `rgba(255, 255, 255, ${alpha})` 
+              : `rgba(0, 0, 0, ${alpha})`;
+            
+            ctx.beginPath();
+            ctx.moveTo(n1.x, n1.y);
+            ctx.lineTo(n2.x, n2.y);
+            ctx.stroke();
+          }
+        }
+      });
+
+      // Draw Nodes
+      ctx.fillStyle = colorNode;
+      nodes.forEach(n => {
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, 2, 0, Math.PI*2);
+        ctx.fill();
+      });
+
+      requestAnimationFrame(animate);
+    }
+
+    window.addEventListener('resize', init);
+    init();
+    animate();
+
+  </script>
+</body>
+</html>
