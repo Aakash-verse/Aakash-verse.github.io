@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="description" content="Aakash Kumar - PhD Student in Theoretical Machine Learning & Physics.">
-  <title>Aakash Kumar </title>
+  <title>Aakash Kumar | Theoretical ML</title>
   
   <!-- Modern Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -173,7 +173,7 @@
     }
 
     /* ------------------------------------------------------------------
-       HERO
+       HERO & PHOTO STYLES
        ------------------------------------------------------------------ */
     .hero {
       min-height: 90vh;
@@ -191,8 +191,68 @@
       pointer-events: none;
     }
 
-    .hero-content { position: relative; z-index: 2; max-width: 700px; }
+    /* UPDATED: Flex Layout for Hero */
+    .hero-content { 
+      position: relative; 
+      z-index: 2; 
+      max-width: 1000px; /* Wider to accommodate image */
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 3rem;
+    }
 
+    .hero-text {
+      flex: 1;
+      max-width: 650px;
+    }
+
+    /* IMAGE STYLES */
+    .hero-avatar-container {
+      position: relative;
+      flex-shrink: 0;
+      width: 280px;
+      height: 280px;
+      z-index: 1;
+    }
+
+    .hero-avatar {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: var(--radius);
+      border: 1px solid var(--glass-border);
+      background: var(--bg-card);
+      box-shadow: 0 20px 40px -10px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Offset Frame Effect */
+    .hero-avatar-container::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      border: 2px solid var(--accent);
+      border-radius: var(--radius);
+      transform: translate(16px, 16px);
+      transition: transform 0.3s ease, opacity 0.3s;
+      opacity: 0.6;
+    }
+
+    /* Hover Interactions */
+    .hero-avatar-container:hover .hero-avatar {
+      transform: translate(-4px, -4px);
+    }
+    .hero-avatar-container:hover::after {
+      transform: translate(10px, 10px);
+      opacity: 1;
+    }
+
+    /* Tags & Text */
     .tag {
       display: inline-block; padding: 0.3rem 0.8rem;
       border: 1px solid var(--accent); color: var(--accent);
@@ -212,6 +272,7 @@
     }
 
     .hero-links { display: flex; gap: 1rem; flex-wrap: wrap; }
+    
     .btn {
       display: inline-flex; align-items: center; gap: 0.5rem;
       padding: 0.7rem 1.5rem; border-radius: 8px;
@@ -309,9 +370,23 @@
     /* ------------------------------------------------------------------
        RESPONSIVE
        ------------------------------------------------------------------ */
-    @media (max-width: 768px) {
+    @media (max-width: 900px) {
+      /* Mobile Hero: Stack image on top, text below */
+      .hero-content {
+        flex-direction: column-reverse; 
+        text-align: center;
+        justify-content: center;
+        gap: 2rem;
+      }
+      .hero-links { justify-content: center; }
+      
+      .hero-avatar-container {
+        width: 200px; height: 200px;
+        margin-bottom: 1rem;
+      }
+
       h1 { font-size: 2.8rem; }
-      .hero { justify-content: flex-start; padding-top: 140px; }
+      .hero { padding-top: 140px; justify-content: flex-start; }
     }
   </style>
 </head>
@@ -337,20 +412,31 @@
     <canvas id="pruningCanvas"></canvas>
     
     <div class="container hero-content">
-      <span class="tag">01. PROFILE</span>
-      <h1>Aakash Kumar</h1>
-      <div class="hero-role">
-        PhD Student in <span style="color:var(--text-main); font-weight:600;">Theoretical Machine Learning</span><br>
-        & Physics of Neural Networks
-      </div>
       
-      <div class="hero-links">
-        <a href="#research" class="btn btn-primary">
-          View Research
-          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </a>
-        <a href="#contact" class="btn btn-outline">Get in Touch</a>
+      <!-- Left: Text -->
+      <div class="hero-text">
+        <span class="tag">01. PROFILE</span>
+        <h1>Aakash Kumar</h1>
+        <div class="hero-role">
+          PhD Student in <span style="color:var(--text-main); font-weight:600;">Theoretical Machine Learning</span><br>
+          & Physics of Neural Networks
+        </div>
+        
+        <div class="hero-links">
+          <a href="#research" class="btn btn-primary">
+            View Research
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="#contact" class="btn btn-outline">Get in Touch</a>
+        </div>
       </div>
+
+      <!-- Right: Photo -->
+      <div class="hero-avatar-container">
+        <!-- Make sure photo.jpg is in the same folder -->
+        <img src="photo.jpg" alt="Aakash Kumar" class="hero-avatar">
+      </div>
+
     </div>
   </div>
 
@@ -406,19 +492,7 @@
         </div>
         <div class="pub-meta">ArXiv Preprint (2025)</div>
       </div>
-<!--
-      <div class="pub-item">
-        <a href="https://openreview.net/forum?id=uFiFLZyL9j&noteId=HUNaBZK8DC" target="_blank" class="pub-title link-fx">
-          A Unified Framework for Quantized and Continuous Strong Lottery Tickets
-          <svg style="width:14px; margin-left:5px; transform:translateY(1px);" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
-        </a>
-        <div class="pub-authors">
-          <strong>Aakash Kumar</strong>, Emanuele Natale
-        </div>
-        <div class="pub-meta">OpenReview (2025)</div>
-      </div>
--->      
-      <!-- Placeholder for future pubs -->
+      
       <div style="text-align: center; margin-top: 2rem; color: var(--text-muted); font-size: 0.9rem; font-style: italic;">
         More works in progress...
       </div>
@@ -633,5 +707,4 @@
 
   </script>
 </body>
-
 </html>
