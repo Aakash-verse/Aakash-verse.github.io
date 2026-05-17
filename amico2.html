@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AMICO 2026 — Aakash and Maria International Conference on Optimization</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink:      #151210;
+    --ink-soft: #3a3430;
+    --cream:    #f7f2ea;
+    --cream-dk: #ede6d8;
+    --gold:     #b8893a;
+    --gold-lt:  #d4a85a;
+    --rust:     #8b3a2a;
+    --sage:     #2e4a38;
+    --muted:    #7a706a;
+    --border:   rgba(21,18,16,.12);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    line-height: 1.65;
+    font-size: 16px;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(247,242,234,.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 3rem;
+    height: 58px;
+  }
+  .nav-brand {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--ink);
+    letter-spacing: .02em;
+    text-decoration: none;
+  }
+  .nav-brand span { color: var(--gold); }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    font-size: .82rem; font-weight: 500;
+    color: var(--muted);
+    text-decoration: none; letter-spacing: .06em; text-transform: uppercase;
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-submit {
+    background: var(--ink);
+    color: var(--cream) !important;
+    padding: .4rem 1.1rem;
+    border-radius: 3px;
+  }
+  .nav-submit:hover { background: var(--gold) !important; color: var(--ink) !important; }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    min-height: 92vh;
+    display: flex; flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 3rem 5rem;
+    overflow: hidden;
+    background: var(--ink);
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 70% 40%, rgba(184,137,58,.13) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 40% at 10% 80%, rgba(46,74,56,.4) 0%, transparent 55%);
+  }
+  /* Dot-grid texture */
+  .hero-bg::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: radial-gradient(circle, rgba(255,255,255,.07) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+  /* Decorative math symbols */
+  .hero-glyphs {
+    position: absolute; inset: 0; pointer-events: none;
+    font-family: 'Playfair Display', serif;
+    user-select: none;
+  }
+  .hero-glyphs span {
+    position: absolute;
+    color: rgba(255,255,255,.04);
+    font-size: clamp(4rem,10vw,10rem);
+    font-style: italic;
+    animation: drift 20s ease-in-out infinite alternate;
+  }
+  .hero-glyphs span:nth-child(1)  { top: 8%;  left: 3%;   font-size: 11rem; animation-delay: 0s;   }
+  .hero-glyphs span:nth-child(2)  { top: 12%; left: 22%;  font-size: 6rem;  animation-delay: -4s;  }
+  .hero-glyphs span:nth-child(3)  { top: 5%;  left: 55%;  font-size: 8rem;  animation-delay: -8s;  }
+  .hero-glyphs span:nth-child(4)  { top: 20%; right: 4%;  font-size: 14rem; animation-delay: -3s;  }
+  .hero-glyphs span:nth-child(5)  { top: 55%; left: 68%;  font-size: 5rem;  animation-delay: -6s;  }
+  .hero-glyphs span:nth-child(6)  { top: 40%; left: 10%;  font-size: 7rem;  animation-delay: -12s; }
+  @keyframes drift { from { transform: translateY(0); } to { transform: translateY(-18px); } }
+
+  .hero-eyebrow {
+    position: relative;
+    color: var(--gold-lt);
+    font-size: .78rem; font-weight: 500;
+    letter-spacing: .14em; text-transform: uppercase;
+    margin-bottom: 1.2rem;
+    display: flex; align-items: center; gap: .8rem;
+    animation: fadeUp .9s ease both;
+  }
+  .hero-eyebrow::before {
+    content: ''; display: inline-block;
+    width: 32px; height: 1px; background: var(--gold-lt);
+  }
+  .hero-title {
+    position: relative;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: clamp(3rem, 7vw, 6.5rem);
+    line-height: 1.02;
+    color: var(--cream);
+    letter-spacing: -.01em;
+    animation: fadeUp .9s .15s ease both;
+  }
+  .hero-title .amp { font-style: italic; color: var(--gold-lt); }
+  .hero-subtitle {
+    position: relative;
+    margin-top: 1.4rem;
+    font-size: 1.05rem; font-weight: 300;
+    color: rgba(247,242,234,.65);
+    max-width: 560px; line-height: 1.7;
+    animation: fadeUp .9s .3s ease both;
+  }
+  .hero-meta {
+    position: relative;
+    margin-top: 2.8rem;
+    display: flex; gap: 2.5rem; flex-wrap: wrap;
+    animation: fadeUp .9s .45s ease both;
+  }
+  .hero-meta-item { display: flex; flex-direction: column; gap: .25rem; }
+  .hero-meta-label {
+    font-size: .72rem; letter-spacing: .1em; text-transform: uppercase;
+    color: rgba(247,242,234,.4);
+  }
+  .hero-meta-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem; color: var(--cream);
+  }
+  .hero-meta-value.placeholder { color: var(--gold-lt); font-style: italic; }
+  .hero-ctas {
+    position: relative;
+    margin-top: 3rem;
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    animation: fadeUp .9s .6s ease both;
+  }
+  .btn {
+    display: inline-block; text-decoration: none;
+    font-size: .85rem; font-weight: 500; letter-spacing: .05em;
+    padding: .75rem 1.8rem; border-radius: 3px;
+    transition: all .2s;
+  }
+  .btn-primary { background: var(--gold); color: var(--ink); }
+  .btn-primary:hover { background: var(--gold-lt); transform: translateY(-1px); }
+  .btn-outline {
+    border: 1px solid rgba(247,242,234,.3);
+    color: var(--cream);
+  }
+  .btn-outline:hover { border-color: var(--cream); background: rgba(247,242,234,.07); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(22px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── TICKER STRIP ── */
+  .strip {
+    background: var(--gold);
+    color: var(--ink);
+    padding: .65rem 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .strip-inner {
+    display: inline-block;
+    animation: ticker 40s linear infinite;
+    font-size: .78rem; font-weight: 500; letter-spacing: .08em; text-transform: uppercase;
+  }
+  @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* ── SECTIONS ── */
+  section { padding: 6rem 3rem; }
+  .section-inner { max-width: 1060px; margin: 0 auto; }
+
+  .section-label {
+    font-size: .72rem; font-weight: 500;
+    letter-spacing: .14em; text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    display: flex; align-items: center; gap: .7rem;
+  }
+  .section-label::before {
+    content: ''; display: inline-block;
+    width: 20px; height: 1px; background: var(--gold);
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700; line-height: 1.12;
+    color: var(--ink);
+    margin-bottom: 1.5rem;
+  }
+  .section-title em { font-style: italic; color: var(--gold); }
+
+  /* ── ABOUT ── */
+  .about { background: var(--cream); }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: start;
+    margin-top: 3rem;
+  }
+  .about-text p { color: var(--ink-soft); line-height: 1.85; margin-bottom: 1.2rem; }
+  .about-stats {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1.5px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .stat-box {
+    background: var(--cream);
+    padding: 2rem 1.5rem;
+    display: flex; flex-direction: column; gap: .5rem;
+  }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem; font-weight: 700;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .stat-num sup { font-size: 1rem; vertical-align: super; }
+  .stat-label { font-size: .8rem; color: var(--muted); letter-spacing: .04em; }
+
+  /* ── TOPICS ── */
+  .topics { background: var(--cream-dk); }
+  .topics-grid {
+    margin-top: 3rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .topic-card {
+    background: var(--cream-dk);
+    padding: 2rem 1.8rem;
+    transition: background .2s;
+  }
+  .topic-card:hover { background: var(--cream); }
+  .topic-icon {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 2rem;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    display: block;
+    line-height: 1;
+  }
+  .topic-card h3 {
+    font-size: .95rem; font-weight: 500;
+    color: var(--ink);
+    margin-bottom: .5rem;
+  }
+  .topic-card p { font-size: .83rem; color: var(--muted); line-height: 1.65; }
+
+  /* ── DATES ── */
+  .dates { background: var(--ink); }
+  .dates .section-title { color: var(--cream); }
+  .dates-table {
+    margin-top: 3rem;
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .dates-table tr { border-bottom: 1px solid rgba(247,242,234,.08); }
+  .dates-table tr:last-child { border-bottom: none; }
+  .dates-table td {
+    padding: 1.4rem 0;
+    vertical-align: top;
+  }
+  .date-event {
+    color: rgba(247,242,234,.65);
+    font-size: .9rem;
+    width: 55%;
+  }
+  .date-val {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: var(--cream);
+    text-align: right;
+  }
+  .date-val.placeholder {
+    color: var(--gold-lt);
+    font-style: italic;
+    font-size: .9rem;
+  }
+  .date-badge {
+    display: inline-block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: .68rem; font-weight: 500;
+    letter-spacing: .08em; text-transform: uppercase;
+    padding: .25rem .7rem;
+    border-radius: 2px;
+    margin-left: .8rem;
+    vertical-align: middle;
+  }
+  .badge-new { background: rgba(184,137,58,.2); color: var(--gold-lt); }
+  .badge-tba { background: rgba(247,242,234,.07); color: rgba(247,242,234,.4); }
+
+  /* ── SPEAKERS ── */
+  .speakers { background: var(--cream); }
+  .speakers-grid {
+    margin-top: 3rem;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+  }
+  .speaker-card {
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    transition: border-color .2s, transform .2s;
+  }
+  .speaker-card:hover { border-color: var(--gold); transform: translateY(-3px); }
+  .speaker-avatar {
+    height: 160px;
+    background: var(--cream-dk);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem; color: var(--border);
+  }
+  .speaker-info { padding: 1.2rem; }
+  .speaker-info h3 {
+    font-size: .9rem; font-weight: 500; margin-bottom: .25rem;
+    color: var(--muted); font-style: italic;
+  }
+  .speaker-info p { font-size: .78rem; color: var(--muted); }
+  .speaker-tba .speaker-avatar {
+    font-style: italic;
+    font-size: 1rem; color: var(--muted);
+  }
+
+  /* ── SUBMISSION ── */
+  .submission { background: var(--cream-dk); }
+  .submission-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 5rem;
+    margin-top: 3rem;
+    align-items: start;
+  }
+  .submission-text p { color: var(--ink-soft); margin-bottom: 1.2rem; line-height: 1.85; }
+  .submission-rules {
+    display: flex; flex-direction: column; gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .rule-row {
+    background: var(--cream-dk);
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1rem 1.4rem;
+  }
+  .rule-row:hover { background: var(--cream); }
+  .rule-label { font-size: .85rem; color: var(--muted); }
+  .rule-val {
+    font-family: 'DM Mono', monospace;
+    font-size: .8rem; color: var(--ink);
+  }
+
+  /* ── ORGANIZERS ── */
+  .organizers { background: var(--cream); }
+  .org-grid {
+    margin-top: 3rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    max-width: 600px;
+  }
+  .org-card {
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2rem 1.8rem;
+    transition: border-color .2s;
+  }
+  .org-card:hover { border-color: var(--gold); }
+  .org-initials {
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    background: var(--cream-dk);
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    color: var(--gold);
+    margin-bottom: 1.2rem;
+  }
+  .org-card h3 { font-size: 1rem; font-weight: 500; margin-bottom: .3rem; }
+  .org-card .org-role { font-size: .8rem; color: var(--gold); letter-spacing: .05em; margin-bottom: .6rem; }
+  .org-card .org-affil { font-size: .82rem; color: var(--muted); }
+
+  /* ── PROGRAM COMMITTEE ── */
+  .pc { background: var(--cream-dk); }
+  .pc-notice {
+    margin-top: 2.5rem;
+    border: 1px dashed rgba(184,137,58,.4);
+    border-radius: 4px;
+    padding: 2rem 2.5rem;
+    max-width: 600px;
+    color: var(--muted);
+    font-size: .9rem;
+    line-height: 1.7;
+  }
+  .pc-notice strong { color: var(--gold); font-weight: 500; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink);
+    color: rgba(247,242,234,.4);
+    padding: 3rem 3rem;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 1.5rem;
+  }
+  .footer-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--cream);
+  }
+  .footer-brand span { color: var(--gold); }
+  footer p { font-size: .78rem; }
+  .footer-links { display: flex; gap: 1.5rem; }
+  .footer-links a {
+    font-size: .78rem; color: rgba(247,242,234,.4);
+    text-decoration: none; transition: color .2s;
+  }
+  .footer-links a:hover { color: var(--gold-lt); }
+
+  /* ── UTIL ── */
+  .divider {
+    display: block;
+    height: 1px;
+    background: var(--border);
+    margin: 2rem 0;
+  }
+  .placeholder-text { color: var(--gold); font-style: italic; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 0 1.5rem; }
+    .nav-links { display: none; }
+    section { padding: 4rem 1.5rem; }
+    .hero { padding: 0 1.5rem 4rem; }
+    .hero-title { font-size: 2.8rem; }
+    .about-grid, .submission-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .topics-grid { grid-template-columns: 1fr 1fr; }
+    .speakers-grid { grid-template-columns: repeat(2,1fr); }
+    .org-grid { max-width: 100%; grid-template-columns: 1fr 1fr; }
+    footer { flex-direction: column; align-items: flex-start; }
+  }
+  @media (max-width: 560px) {
+    .topics-grid, .speakers-grid, .org-grid { grid-template-columns: 1fr; }
+    .hero-meta { flex-direction: column; gap: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-brand">AMICO <span>'26</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#topics">Topics</a></li>
+    <li><a href="#dates">Dates</a></li>
+    <li><a href="#speakers">Speakers</a></li>
+    <li><a href="#submission">Submission</a></li>
+    <li><a href="#organizers">Organizers</a></li>
+    <li><a href="#submission" class="nav-submit">Submit Paper</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-glyphs">
+    <span>∇</span><span>∑</span><span>λ</span><span>∫</span><span>θ</span><span>∂</span>
+  </div>
+
+  <div class="hero-eyebrow">
+    First Edition &nbsp;·&nbsp; December 2026 &nbsp;·&nbsp; Online
+  </div>
+
+  <h1 class="hero-title">
+    AMICO<br>
+    <span class="amp">2026</span>
+  </h1>
+
+  <p class="hero-subtitle">
+    Aakash &amp; Maria International Conference on Optimization —
+    a premier venue for theoretical advances in machine learning, spanning
+    optimization, statistics, learning theory, and beyond.
+  </p>
+
+  <div class="hero-meta">
+    <div class="hero-meta-item">
+      <span class="hero-meta-label">Venue</span>
+      <span class="hero-meta-value">Virtual (Online)</span>
+    </div>
+    <div class="hero-meta-item">
+      <span class="hero-meta-label">Dates</span>
+      <span class="hero-meta-value placeholder">TBA — December 2026</span>
+    </div>
+    <div class="hero-meta-item">
+      <span class="hero-meta-label">Submission Deadline</span>
+      <span class="hero-meta-value placeholder">TBA</span>
+    </div>
+    <div class="hero-meta-item">
+      <span class="hero-meta-label">Edition</span>
+      <span class="hero-meta-value">1<sup>st</sup></span>
+    </div>
+  </div>
+
+  <div class="hero-ctas">
+    <a href="#submission" class="btn btn-primary">Call for Papers</a>
+    <a href="#dates" class="btn btn-outline">Important Dates</a>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="strip" aria-hidden="true">
+  <div class="strip-inner">
+    &nbsp;&nbsp;·&nbsp;&nbsp; AMICO 2026 — First Edition &nbsp;&nbsp;·&nbsp;&nbsp; Online, December 2026 &nbsp;&nbsp;·&nbsp;&nbsp; Theoretical Machine Learning &nbsp;&nbsp;·&nbsp;&nbsp; Optimization &nbsp;&nbsp;·&nbsp;&nbsp; Learning Theory &nbsp;&nbsp;·&nbsp;&nbsp; Statistics &nbsp;&nbsp;·&nbsp;&nbsp; Call for Papers Coming Soon &nbsp;&nbsp;·&nbsp;&nbsp; AMICO 2026 — First Edition &nbsp;&nbsp;·&nbsp;&nbsp; Online, December 2026 &nbsp;&nbsp;·&nbsp;&nbsp; Theoretical Machine Learning &nbsp;&nbsp;·&nbsp;&nbsp; Optimization &nbsp;&nbsp;·&nbsp;&nbsp; Learning Theory &nbsp;&nbsp;·&nbsp;&nbsp; Statistics &nbsp;&nbsp;·&nbsp;&nbsp; Call for Papers Coming Soon &nbsp;&nbsp;·&nbsp;&nbsp;
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="section-inner">
+    <div class="section-label">About the Conference</div>
+    <h2 class="section-title">A New Venue for<br><em>Theoretical ML</em></h2>
+
+    <div class="about-grid">
+      <div class="about-text">
+        <p>
+          AMICO (the Aakash and Maria International Conference on Optimization) is a new
+          annual conference dedicated to theoretical research across all areas of machine learning.
+          Our first edition will be held online in December 2026.
+        </p>
+        <p>
+          The conference aims to foster rigorous, mathematically-grounded work on the
+          foundations of modern machine learning — from the geometry of loss landscapes and
+          the dynamics of gradient-based algorithms, to statistical learning theory, generalization bounds,
+          and beyond.
+        </p>
+        <p>
+          AMICO welcomes original contributions at the intersection of optimization,
+          statistics, high-dimensional probability, and theoretical computer science as
+          they relate to machine learning. We are committed to accessibility, open science,
+          and a welcoming community for researchers at all career stages.
+        </p>
+      </div>
+
+      <div class="about-stats">
+        <div class="stat-box">
+          <span class="stat-num">1<sup>st</sup></span>
+          <span class="stat-label">Inaugural Edition</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num" style="color:var(--gold);">∞</span>
+          <span class="stat-label">Open to All Researchers</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num">100<sup>%</sup></span>
+          <span class="stat-label">Online & Accessible</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num" style="font-size:1.8rem; color:var(--muted);">TBA</span>
+          <span class="stat-label">Accepted Papers Target</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TOPICS -->
+<section class="topics" id="topics">
+  <div class="section-inner">
+    <div class="section-label">Scope</div>
+    <h2 class="section-title">Topics of <em>Interest</em></h2>
+
+    <div class="topics-grid">
+
+      <div class="topic-card">
+        <span class="topic-icon">∇</span>
+        <h3>Optimization for Machine Learning</h3>
+        <p>Convergence theory, adaptive methods, variance reduction, second-order methods, non-convex landscapes, and implicit regularization.</p>
+      </div>
+
+      <div class="topic-card">
+        <span class="topic-icon">𝒱</span>
+        <h3>Statistical Learning Theory</h3>
+        <p>Generalization bounds, VC theory, PAC learning, Rademacher complexity, uniform convergence, and information-theoretic limits.</p>
+      </div>
+
+      <div class="topic-card">
+        <span class="topic-icon">λ</span>
+        <h3>Deep Learning Theory</h3>
+        <p>Neural tangent kernels, loss landscape geometry, overparameterization, implicit bias of gradient descent, and expressivity.</p>
+      </div>
+
+      <div class="topic-card">
+        <span class="topic-icon">σ</span>
+        <h3>High-Dimensional Statistics</h3>
+        <p>Random matrix theory, compressed sensing, sparse estimation, matrix factorization, and concentration of measure.</p>
+      </div>
+
+      <div class="topic-card">
+        <span class="topic-icon">π</span>
+        <h3>Probabilistic Methods &amp; Sampling</h3>
+        <p>MCMC, Langevin dynamics, variational inference, diffusion models from a theoretical perspective, and Bayesian learning.</p>
+      </div>
+
+      <div class="topic-card">
+        <span class="topic-icon">ε</span>
+        <h3>Online Learning &amp; Bandits</h3>
+        <p>Regret minimization, multi-armed bandits, adversarial learning, game theory, and online convex optimization.</p>
+      </div>
+
+      <div class="topic-card">
+        <span class="topic-icon">𝒢</span>
+        <h3>Federated &amp; Distributed Learning</h3>
+        <p>Communication complexity, heterogeneity, differential privacy, decentralized optimization, and Byzantine robustness.</p>
+      </div>
+
+      <div class="topic-card">
+        <span class="topic-icon">ρ</span>
+        <h3>Reinforcement Learning Theory</h3>
+        <p>Sample complexity, exploration-exploitation, policy gradient methods, value function approximation, and MDPs.</p>
+      </div>
+
+      <div class="topic-card">
+        <span class="topic-icon">η</span>
+        <h3>Computational Complexity</h3>
+        <p>Hardness of learning problems, algorithmic lower bounds, cryptographic connections, and query complexity.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- IMPORTANT DATES -->
+<section class="dates" id="dates">
+  <div class="section-inner">
+    <div class="section-label" style="color:var(--gold-lt);">Timeline</div>
+    <h2 class="section-title">Important <em>Dates</em></h2>
+
+    <table class="dates-table">
+      <tbody>
+        <tr>
+          <td class="date-event">Abstract Submission Deadline</td>
+          <td class="date-val placeholder">TBA <span class="date-badge badge-tba">To be announced</span></td>
+        </tr>
+        <tr>
+          <td class="date-event">Full Paper Submission Deadline</td>
+          <td class="date-val placeholder">TBA <span class="date-badge badge-tba">To be announced</span></td>
+        </tr>
+        <tr>
+          <td class="date-event">Review Period</td>
+          <td class="date-val placeholder">TBA — TBA</td>
+        </tr>
+        <tr>
+          <td class="date-event">Author Rebuttal Period</td>
+          <td class="date-val placeholder">TBA</td>
+        </tr>
+        <tr>
+          <td class="date-event">Notification of Acceptance</td>
+          <td class="date-val placeholder">TBA <span class="date-badge badge-tba">To be announced</span></td>
+        </tr>
+        <tr>
+          <td class="date-event">Camera-Ready Deadline</td>
+          <td class="date-val placeholder">TBA</td>
+        </tr>
+        <tr>
+          <td class="date-event">Workshop Proposals Deadline</td>
+          <td class="date-val placeholder">TBA</td>
+        </tr>
+        <tr>
+          <td class="date-event">Conference Dates</td>
+          <td class="date-val" style="color:var(--gold-lt);">December 2026 <span class="date-badge badge-new">Online</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p style="margin-top:2rem; font-size:.82rem; color:rgba(247,242,234,.35); font-style:italic;">
+      All deadlines are 23:59 AoE (Anywhere on Earth). Dates subject to change — subscribe to updates below.
+    </p>
+  </div>
+</section>
+
+<!-- INVITED SPEAKERS -->
+<section class="speakers" id="speakers">
+  <div class="section-inner">
+    <div class="section-label">Keynotes</div>
+    <h2 class="section-title">Invited <em>Speakers</em></h2>
+    <p style="color:var(--muted); margin-bottom:0; font-size:.9rem;">
+      Invited speakers for AMICO 2026 will be announced shortly.
+    </p>
+
+    <div class="speakers-grid" style="margin-top:2.5rem;">
+      <div class="speaker-card speaker-tba">
+        <div class="speaker-avatar">TBA</div>
+        <div class="speaker-info">
+          <h3>To Be Announced</h3>
+          <p style="font-size:.75rem; color:var(--muted);">&nbsp;</p>
+        </div>
+      </div>
+      <div class="speaker-card speaker-tba">
+        <div class="speaker-avatar">TBA</div>
+        <div class="speaker-info">
+          <h3>To Be Announced</h3>
+          <p style="font-size:.75rem; color:var(--muted);">&nbsp;</p>
+        </div>
+      </div>
+      <div class="speaker-card speaker-tba">
+        <div class="speaker-avatar">TBA</div>
+        <div class="speaker-info">
+          <h3>To Be Announced</h3>
+          <p style="font-size:.75rem; color:var(--muted);">&nbsp;</p>
+        </div>
+      </div>
+      <div class="speaker-card speaker-tba">
+        <div class="speaker-avatar">TBA</div>
+        <div class="speaker-info">
+          <h3>To Be Announced</h3>
+          <p style="font-size:.75rem; color:var(--muted);">&nbsp;</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SUBMISSION -->
+<section class="submission" id="submission">
+  <div class="section-inner">
+    <div class="section-label">Call for Papers</div>
+    <h2 class="section-title">Paper <em>Submission</em></h2>
+
+    <div class="submission-grid">
+      <div class="submission-text">
+        <p>
+          AMICO 2026 invites submissions of original research on the theory of machine
+          learning. Papers should present novel theoretical results, including proofs of
+          convergence, generalization bounds, lower bounds, or algorithmic guarantees.
+          Both long and short papers are welcome.
+        </p>
+        <p>
+          All submissions will undergo double-blind peer review. Authors should
+          ensure their papers are anonymized before submission. Previously published or
+          concurrently submitted work is not eligible for submission.
+        </p>
+        <p>
+          Submissions must be formatted using the official AMICO LaTeX style file,
+          which will be made available on the submission platform. Papers exceeding the
+          page limit will not be reviewed.
+        </p>
+        <p>
+          The submission portal will open shortly. Please check back here or sign
+          up for email updates.
+        </p>
+        <a href="#" class="btn btn-primary" style="margin-top:.5rem; display:inline-block;">
+          Submission Portal (Coming Soon)
+        </a>
+      </div>
+
+      <div>
+        <div class="submission-rules">
+          <div class="rule-row">
+            <span class="rule-label">Format</span>
+            <span class="rule-val">AMICO LaTeX Style</span>
+          </div>
+          <div class="rule-row">
+            <span class="rule-label">Long Papers</span>
+            <span class="rule-val">TBA pages</span>
+          </div>
+          <div class="rule-row">
+            <span class="rule-label">Short Papers</span>
+            <span class="rule-val">TBA pages</span>
+          </div>
+          <div class="rule-row">
+            <span class="rule-label">Review Type</span>
+            <span class="rule-val">Double-Blind</span>
+          </div>
+          <div class="rule-row">
+            <span class="rule-label">Supplementary</span>
+            <span class="rule-val">Allowed (appendix)</span>
+          </div>
+          <div class="rule-row">
+            <span class="rule-label">Proceedings</span>
+            <span class="rule-val">TBA</span>
+          </div>
+          <div class="rule-row">
+            <span class="rule-label">Dual Submission</span>
+            <span class="rule-val">Not Allowed</span>
+          </div>
+          <div class="rule-row">
+            <span class="rule-label">Anonymization</span>
+            <span class="rule-val">Required</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ORGANIZERS -->
+<section class="organizers" id="organizers">
+  <div class="section-inner">
+    <div class="section-label">Team</div>
+    <h2 class="section-title"><em>Organizers</em></h2>
+
+    <div class="org-grid">
+      <div class="org-card">
+        <div class="org-initials">A</div>
+        <h3>Aakash</h3>
+        <div class="org-role">Co-Founder &amp; General Chair</div>
+        <div class="org-affil placeholder-text" style="font-style:italic; font-size:.82rem;">Affiliation — TBA</div>
+      </div>
+      <div class="org-card">
+        <div class="org-initials">M</div>
+        <h3>Maria</h3>
+        <div class="org-role">Co-Founder &amp; General Chair</div>
+        <div class="org-affil placeholder-text" style="font-style:italic; font-size:.82rem;">Affiliation — TBA</div>
+      </div>
+    </div>
+
+    <p style="margin-top:2.5rem; font-size:.85rem; color:var(--muted); max-width:520px; line-height:1.8;">
+      For sponsorship enquiries, partnership opportunities, or general questions
+      about the conference, please reach out via
+      <a href="mailto:contact@amico-conf.org" style="color:var(--gold); text-decoration:none;">contact@amico&#8209;conf.org</a>
+      <span class="placeholder-text">(placeholder — update with real address)</span>.
+    </p>
+  </div>
+</section>
+
+<!-- PROGRAM COMMITTEE -->
+<section class="pc" id="pc">
+  <div class="section-inner">
+    <div class="section-label">Review Board</div>
+    <h2 class="section-title">Program <em>Committee</em></h2>
+
+    <div class="pc-notice">
+      <strong>Area Chairs and Program Committee members will be announced soon.</strong><br><br>
+      If you are interested in serving as a reviewer or area chair for AMICO 2026,
+      please fill out the volunteer form (coming soon) or contact us directly.
+      We welcome reviewers from all career stages and actively encourage early-career
+      researchers to participate.
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-brand">AMICO <span>'26</span></div>
+    <p style="margin-top:.4rem; font-size:.75rem;">
+      Aakash &amp; Maria International Conference on Optimization<br>
+      First Edition — December 2026 · Online
+    </p>
+  </div>
+  <div class="footer-links">
+    <a href="#about">About</a>
+    <a href="#topics">Topics</a>
+    <a href="#dates">Dates</a>
+    <a href="#submission">Submit</a>
+    <a href="mailto:contact@amico-conf.org">Contact</a>
+  </div>
+  <p style="font-size:.72rem; width:100%; margin-top:.5rem;">
+    © 2026 AMICO. All rights reserved. &nbsp;·&nbsp;
+    Website maintained by the organizing committee.
+  </p>
+</footer>
+
+</body>
+</html>
