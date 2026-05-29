@@ -191,6 +191,15 @@
       pointer-events: none;
     }
 
+    .hero-quote {
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      color: var(--accent);
+      opacity: 0.9;
+      margin-bottom: 2rem;
+      letter-spacing: 0.02em;
+    }
+
     .hero-content { 
       position: relative; 
       z-index: 2; 
@@ -412,7 +421,10 @@
         <h1>Aakash Kumar</h1>
         <div class="hero-role">
           PhD Student in <span style="color:var(--text-main); font-weight:600;">Theoretical Machine Learning</span><br>
-          & Neural Network Theory
+        </div>
+
+        <div class="hero-quote">
+          “Life is a Markov process.”
         </div>
         
         <div class="hero-links">
@@ -440,13 +452,13 @@
       <div class="section-title">02. Biography</div>
       <div class="card">
         <p style="font-size: 1.2rem; color: var(--text-main); margin-bottom: 1.5rem;">
-          I am a PhD student working on <strong>theoretical machine learning</strong>, with a focus on how structure, composition, and memory emerge in neural models.
+          I am a PhD student working on <strong>theoretical machine learning</strong>, with a focus on composition, memory and pruning.
         </p>
         <p>
-          Based in Nice, France, I am affiliated with <a href="https://3ia.univ-cotedazur.eu/" class="link-fx" target="_blank">3IA Côte d’Azur</a>, Inria, and CNRS. Working under the supervision of <a href="https://natema.github.io/" class="link-fx">Prof. Emanuele Natale</a>, my research studies the mathematical principles behind model composition, sequence memory, and efficient neural representations.
+          Based in Nice, France, I am affiliated with <a href="https://team.inria.fr/coati/team-members/" class="link-fx" target="_blank">COATI</a>, <a href="https://3ia.univ-cotedazur.eu/research/3ia-students/phd-students-axis-1" class="link-fx" target="_blank">3IA Côte d’Azur</a>, Inria, I3S, CNRS, and Université Côte d’Azur. Working under the supervision of <a href="https://natema.github.io/" class="link-fx">Prof. Emanuele Natale</a>, my research studies the mathematical principles behind model composition, sequence memory, and neural network pruning.
         </p>
         <p>
-          Prior to this, I completed my BS-MS at IISER Kolkata, where I built a broad mathematical and computational foundation that now supports my work on neural network theory.
+          Prior to this, I completed my BS-MS in Physics at IISER Kolkata, giving me a strong foundation in the physical principles that often govern complex systems like Neural Networks.
         </p>
       </div>
     </section>
@@ -458,13 +470,16 @@
         <div class="card">
           <h3 style="margin-bottom: 1rem;">Compositionality, Memory, and Network Structure</h3>
           <p>
-            My current work studies how neural systems combine specialized behaviors without interference. One line of work develops a principled framework for composing autoregressive models, with guarantees on when model merging preserves control, stability, and length generalization.
+            A central part of my research studies the <strong>Strong Lottery Ticket Hypothesis (SLTH)</strong>, which asks whether sparse subnetworks hidden inside large randomly initialized models can already exhibit strong performance before training. My earlier work developed theoretical frameworks connecting pruning and quantization in these regimes.
           </p>
           <p>
-            Another line investigates asymmetric Hopfield networks and sequence memory, showing how simple architectural motifs can support very large attractor capacity and robust retrieval. Together, these projects aim to explain how structured neural systems store, compose, and generalize information efficiently.
+            More recently, I have been exploring how neural systems combine specialized behaviors without interference. One line of work develops a principled framework for composing autoregressive models, with guarantees on stability and compositional generalization.
+          </p>
+          <p>
+            Another line investigates asymmetric Hopfield networks and sequence memory, showing classical asymmetric Hopfield networks can support extremely large number of stable limit cycles, each with a very large period.
           </p>
           <div style="margin-top: 1.5rem; border-top: 1px solid var(--border); padding-top: 1rem; font-size: 0.9rem; font-family: var(--font-mono);">
-            Keywords: Model Composition, Sequence Memory, Neural Network Theory, Generalization
+            Keywords: Strong Lottery Ticket Hypothesis, Model Composition, Sequence Memory, Neural Network Theory
           </div>
         </div>
       </div>
