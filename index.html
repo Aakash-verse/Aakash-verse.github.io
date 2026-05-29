@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="description" content="Aakash Kumar - PhD Student in Theoretical Machine Learning & Physics.">
+  <meta name="description" content="Aakash Kumar - PhD Student in Theoretical Machine Learning & Neural Networks.">
   <title>Aakash Kumar</title>
   
   <!-- Modern Fonts -->
@@ -22,12 +22,12 @@
       --font-mono: 'JetBrains Mono', monospace;
 
       /* Light Mode */
-      --bg-page: #f2f2f4; /* Soft grey, paper-like */
+      --bg-page: #f2f2f4;
       --bg-card: rgba(255, 255, 255, 0.7);
       --bg-card-hover: rgba(255, 255, 255, 0.95);
       --text-main: #18181b;
       --text-muted: #52525b;
-      --accent: #2563eb; /* Academic Blue */
+      --accent: #2563eb;
       --accent-glow: rgba(37, 99, 235, 0.15);
       --border: rgba(0, 0, 0, 0.08);
       --glass-border: 1px solid rgba(255, 255, 255, 0.5);
@@ -44,12 +44,12 @@
 
     [data-theme="dark"] {
       /* Dark Mode */
-      --bg-page: #09090b; /* Deep matte black */
+      --bg-page: #09090b;
       --bg-card: rgba(24, 24, 27, 0.6);
       --bg-card-hover: rgba(39, 39, 42, 0.8);
       --text-main: #f4f4f5;
       --text-muted: #a1a1aa;
-      --accent: #60a5fa; /* Lighter blue for dark mode */
+      --accent: #60a5fa;
       --accent-glow: rgba(96, 165, 250, 0.15);
       --border: rgba(255, 255, 255, 0.08);
       --glass-border: 1px solid rgba(255, 255, 255, 0.05);
@@ -191,11 +191,10 @@
       pointer-events: none;
     }
 
-    /* UPDATED: Flex Layout for Hero */
     .hero-content { 
       position: relative; 
       z-index: 2; 
-      max-width: 1000px; /* Wider to accommodate image */
+      max-width: 1000px;
       width: 100%;
       display: flex;
       align-items: center;
@@ -208,7 +207,6 @@
       max-width: 650px;
     }
 
-    /* IMAGE STYLES */
     .hero-avatar-container {
       position: relative;
       flex-shrink: 0;
@@ -230,7 +228,6 @@
       z-index: 2;
     }
 
-    /* Offset Frame Effect */
     .hero-avatar-container::after {
       content: '';
       position: absolute;
@@ -243,7 +240,6 @@
       opacity: 0.6;
     }
 
-    /* Hover Interactions */
     .hero-avatar-container:hover .hero-avatar {
       transform: translate(-4px, -4px);
     }
@@ -252,7 +248,6 @@
       opacity: 1;
     }
 
-    /* Tags & Text */
     .tag {
       display: inline-block; padding: 0.3rem 0.8rem;
       border: 1px solid var(--accent); color: var(--accent);
@@ -340,7 +335,6 @@
     
     .logo-strip { margin-top: 1rem; display: flex; gap: 1rem; opacity: 0.7; }
     .logo-strip img { height: 30px; width: auto; object-fit: contain; }
-    /* Invert logos in dark mode if they are simple black/white, otherwise adjust opacity */
     [data-theme="dark"] .logo-strip img { filter: brightness(0) invert(1); opacity: 0.6; }
 
     /* ------------------------------------------------------------------
@@ -371,7 +365,6 @@
        RESPONSIVE
        ------------------------------------------------------------------ */
     @media (max-width: 900px) {
-      /* Mobile Hero: Stack image on top, text below */
       .hero-content {
         flex-direction: column-reverse; 
         text-align: center;
@@ -419,7 +412,7 @@
         <h1>Aakash Kumar</h1>
         <div class="hero-role">
           PhD Student in <span style="color:var(--text-main); font-weight:600;">Theoretical Machine Learning</span><br>
-          & Physics of Neural Networks
+          & Neural Network Theory
         </div>
         
         <div class="hero-links">
@@ -433,7 +426,6 @@
 
       <!-- Right: Photo -->
       <div class="hero-avatar-container">
-        <!-- Make sure photo.jpg is in the same folder -->
         <img src="photo.jpg" alt="Aakash Kumar" class="hero-avatar">
       </div>
 
@@ -448,13 +440,13 @@
       <div class="section-title">02. Biography</div>
       <div class="card">
         <p style="font-size: 1.2rem; color: var(--text-main); margin-bottom: 1.5rem;">
-          I am a PhD student navigating the intersection of <strong>Theoretical Computer Science</strong> and <strong>Statistical Physics</strong>.
+          I am a PhD student working on <strong>theoretical machine learning</strong>, with a focus on how structure, composition, and memory emerge in neural models.
         </p>
         <p>
-          Based in Nice, France, I am affiliated with <a href="https://3ia.univ-cotedazur.eu/" class="link-fx" target="_blank">3IA Côte d’Azur</a>, Inria, and CNRS. Working under the supervision of <a href="https://natema.github.io/" class="link-fx">Prof. Emanuele Natale</a>, my research aims to mathematically demystify why deep learning works so well, with a specific focus on network pruning.
+          Based in Nice, France, I am affiliated with <a href="https://3ia.univ-cotedazur.eu/" class="link-fx" target="_blank">3IA Côte d’Azur</a>, Inria, and CNRS. Working under the supervision of <a href="https://natema.github.io/" class="link-fx">Prof. Emanuele Natale</a>, my research studies the mathematical principles behind model composition, sequence memory, and efficient neural representations.
         </p>
         <p>
-          Prior to this, I completed my BS-MS in Physics at IISER Kolkata, giving me a strong foundation in the physical principles that often govern complex systems like Neural Networks.
+          Prior to this, I completed my BS-MS at IISER Kolkata, where I built a broad mathematical and computational foundation that now supports my work on neural network theory.
         </p>
       </div>
     </section>
@@ -464,15 +456,15 @@
       <div class="section-title">03. Research Focus</div>
       <div class="research-grid">
         <div class="card">
-          <h3 style="margin-bottom: 1rem;">Strong Lottery Ticket Hypothesis (SLTH)</h3>
+          <h3 style="margin-bottom: 1rem;">Compositionality, Memory, and Network Structure</h3>
           <p>
-            The <strong>SLTH</strong> suggests that within a large, randomly initialized neural network, there exists a "lucky" subnetwork that performs well without any weight training—purely by identifying the right structure (pruning).
+            My current work studies how neural systems combine specialized behaviors without interference. One line of work develops a principled framework for composing autoregressive models, with guarantees on when model merging preserves control, stability, and length generalization.
           </p>
           <p>
-            My current work investigates the <strong>interplay between Quantization and Pruning</strong>. By applying tools from probability theory, I analyze the existence of these subnetworks in quantized regimes, paving the way for ultra-efficient neural networks that require minimal compute to train and deploy.
+            Another line investigates asymmetric Hopfield networks and sequence memory, showing how simple architectural motifs can support very large attractor capacity and robust retrieval. Together, these projects aim to explain how structured neural systems store, compose, and generalize information efficiently.
           </p>
           <div style="margin-top: 1.5rem; border-top: 1px solid var(--border); padding-top: 1rem; font-size: 0.9rem; font-family: var(--font-mono);">
-            Keywords: Neural Network Pruning, Random Subsets, Model Compression
+            Keywords: Model Composition, Sequence Memory, Neural Network Theory, Generalization
           </div>
         </div>
       </div>
@@ -482,6 +474,28 @@
     <section id="publications">
       <div class="section-title">04. Publications</div>
       
+      <div class="pub-item">
+        <a href="https://arxiv.org/abs/2605.24611" target="_blank" class="pub-title link-fx">
+          Beyond Fixed Points: Superpolynomial Capacity of Asymmetric Hopfield Networks
+          <svg style="width:14px; margin-left:5px; transform:translateY(1px);" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+        </a>
+        <div class="pub-authors">
+          <strong>Aakash Kumar</strong>, Anatoly Khina, Frederik Mallmann-Trenn, Emanuele Natale
+        </div>
+        <div class="pub-meta">ArXiv Preprint (2026)</div>
+      </div>
+
+      <div class="pub-item">
+        <a href="https://arxiv.org/abs/2605.28304" target="_blank" class="pub-title link-fx">
+          Compositional Generalization in Autoregressive Models via Logit Composition
+          <svg style="width:14px; margin-left:5px; transform:translateY(1px);" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+        </a>
+        <div class="pub-authors">
+          <strong>Aakash Kumar</strong>, Maria Sofia Bucarelli, Emanuele Natale
+        </div>
+        <div class="pub-meta">ArXiv Preprint (2026)</div>
+      </div>
+
       <div class="pub-item">
         <a href="https://openreview.net/forum?id=uFiFLZyL9j" target="_blank" class="pub-title link-fx">
           A Unified Framework for Quantized and Continuous Strong Lottery Tickets
@@ -519,10 +533,10 @@
           <div class="t-degree">PhD, Theoretical Machine Learning</div>
           <div class="t-inst">Inria & Université Côte d’Azur, France</div>
           <p style="margin-top: 0.5rem; font-size: 0.95rem;">
-            Team COATI. Advisors: Emanuele Natale.
+            Team COATI. Advisor: Emanuele Natale.
           </p>
           <div class="logo-strip">
-            <img src="inria.png" alt="Inria"> <!-- Ensure these files exist or use text -->
+            <img src="inria.png" alt="Inria">
           </div>
         </div>
 
@@ -531,7 +545,7 @@
           <div class="t-degree">BS-MS in Physical Sciences</div>
           <div class="t-inst">IISER Kolkata, India</div>
           <p style="margin-top: 0.5rem; font-size: 0.95rem;">
-            Thesis: <a href = "Phase_Transition_in_ANN.pdf" class="link-fx"> "Phase transition in Artificial Neural Networks" </a>.<br>
+            Thesis: <a href="Phase_Transition_in_ANN.pdf" class="link-fx">"Phase transition in Artificial Neural Networks"</a>.<br>
             Teaching Assistant for Mathematical Methods I.
           </p>
           <div class="logo-strip">
@@ -588,7 +602,6 @@
     const html = document.documentElement;
     const iconPath = toggleBtn.querySelector('path');
 
-    // SVG Paths
     const sunPath = "M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10z";
     const moonPath = "M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z";
 
@@ -598,7 +611,6 @@
       iconPath.setAttribute('d', theme === 'dark' ? sunPath : moonPath);
     }
 
-    // Init
     const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
     setTheme(savedTheme);
 
@@ -618,7 +630,6 @@
 
     // ----------------------------------------------------
     // PRUNING ANIMATION
-    // Visualizes a network starting dense and losing edges
     // ----------------------------------------------------
     const canvas = document.getElementById('pruningCanvas');
     const ctx = canvas.getContext('2d');
@@ -628,7 +639,6 @@
     let width, height;
     let tick = 0;
     
-    // Config
     const NODE_COUNT = 40;
     const REACH = 200;
     
@@ -646,7 +656,6 @@
         });
       }
       
-      // Pre-calculate edges
       edges = [];
       for(let i=0; i<NODE_COUNT; i++) {
         for(let j=i+1; j<NODE_COUNT; j++) {
@@ -661,7 +670,6 @@
       
       ctx.clearRect(0, 0, width, height);
       
-      // Move Nodes
       nodes.forEach(n => {
         n.x += n.vx;
         n.y += n.vy;
@@ -669,11 +677,9 @@
         if(n.y < 0 || n.y > height) n.vy *= -1;
       });
 
-      // Update Pruning Cycle
-      // Edges fade in and out based on sine wave logic to simulate "training/pruning" cycles
       tick += 0.005;
-      const cycle = (Math.sin(tick) + 1) / 2; // 0 to 1
-      const threshold = 0.2 + (cycle * 0.8); // Varies between sparse and dense
+      const cycle = (Math.sin(tick) + 1) / 2;
+      const threshold = 0.2 + (cycle * 0.8);
 
       ctx.lineWidth = 1;
       
@@ -682,13 +688,10 @@
         const n2 = nodes[e.j];
         const dist = Math.hypot(n1.x - n2.x, n1.y - n2.y);
         
-        // "Pruning Logic": Only draw if distance is close AND edge has high "life" value relative to threshold
         if (dist < REACH) {
           if (e.life < threshold) {
-            // Calculate opacity based on distance and global cycle
-            const alpha = (1 - dist/REACH) * 0.3; // Low opacity
+            const alpha = (1 - dist/REACH) * 0.3;
             
-            // Set color based on theme
             ctx.strokeStyle = colorNode === '#ffffff' 
               ? `rgba(255, 255, 255, ${alpha})` 
               : `rgba(0, 0, 0, ${alpha})`;
@@ -701,7 +704,6 @@
         }
       });
 
-      // Draw Nodes
       ctx.fillStyle = colorNode;
       nodes.forEach(n => {
         ctx.beginPath();
@@ -719,7 +721,3 @@
   </script>
 </body>
 </html>
-
-
-
-
